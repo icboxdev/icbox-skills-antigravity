@@ -132,7 +132,81 @@ await Order.create(data, { client: trx });
 // Se jogar um erro no meio, o .commit() nunca é chamado e a conexão vaza!
 ```
 
-## 5. Multi-Tenant Safeties (Row-Level / App-Level)
+### 4.4 Read/Write Replicas (Alta Disponibilidade)
+
+Para aplicações de altíssimo tráfego, configure réplicas de leitura no Lucid.
+
+```typescript
+// ✅ CERTO — Configurando replicas no database.ts
+pg: {
+  client: 'pg',
+  connection: {
+    // Escrita vai pro master
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    // ...
+  },
+  replicas: {
+    writePolicy: 'master', // Garante consistência
+    connections: [
+      { host: process.env.DB_REPLICA1_HOST },
+      { host: process.env.DB_REPLICA2_HOST }
+    ]
+  }
+}
+```
+
+## 5. Cache de Alta Performance (Bentocache)
+
+Reduza a carga do PostgreSQL usando o pacote oficial `@adonisjs/cache` (construído sobre o Bentocache).
+
+```typescript
+// ✅ CERTO — Usando Cache com Grace Periods e Stampede Protection
+import cache from "@adonisjs/cache/services/main";
+
+export default class ReportService {
+  async getMonthlyStats(tenantId: string) {
+    // Retorna do cache se existir; senão executa a query e faz cache por 30 mins
+    return await cache.getOrSet(
+      `stats:${tenantId}`,
+      async () => {
+        const stats = await db.rawQuery("SELECT ... FROM pesadas ...");
+        return stats.rows;
+      },
+      { ttl: "30m" },
+    );
+  }
+}
+```
+
+## 6. Locks Distribuídos (Verrou)
+
+Em ambientes concorrentes (múltiplas instâncias do Adonis rodando), evite race conditions (ex: cobrar o mesmo usuário 2x) usando `@adonisjs/lock` (Verrou).
+
+```typescript
+// ✅ CERTO — Garantindo exclusão mútua em background jobs
+import defaultLock from "@adonisjs/lock/services/main";
+
+export class ProcessPaymentJob {
+  async handle(orderId: string) {
+    const lock = defaultLock.createLock(`payment_processing:${orderId}`);
+
+    // Tenta adquirir o lock. Se não conseguir, outra instância já está processando
+    const acquired = await lock.acquire();
+    if (!acquired) {
+      return; // Skips silently
+    }
+
+    try {
+      await chargeCustomer();
+    } finally {
+      await lock.release(); // SEMPRE libere
+    }
+  }
+}
+```
+
+## 7. Multi-Tenant Safeties (Row-Level / App-Level)
 
 Se a aplicação for multi-tenant, proteja as queries globalmente para evitar vazamento cruzado.
 
