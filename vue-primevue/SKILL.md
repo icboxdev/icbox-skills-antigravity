@@ -98,3 +98,24 @@ Quando solicitado para criar UI usando _Vue 3 + PrimeVue_:
 1. Utilize sempre `script setup lang="ts"`.
 2. Programe os componentes visando a arquitetura Tailwind-Unstyled via `pt`.
 3. Garanta uso de `shallowRef` em arrays de massa.
+
+## 5. Regra Defensiva (Vue DOM & Error Parsing)
+
+**NUNCA** utilize expressões ternárias (`{{ condicao ? 'Texto A' : 'Texto B extreeeeemamente longo...' }}`) na UI do Template Vue para interpretar blocos inteiros, parágrafos ou Strings maiores que 4 palavras.  
+O limite de largura de linha de Auto-Formatters como ESLint/Prettier (printWidth: 80-120) quebra strings literais (`'`) no meio do valor, causando um fatal Error "Unterminated string literal".
+
+### Few-Shot: Renderização Condicional Limpa e Nativa
+
+```html
+<!-- CERTO (Blindado contra Formattings Breaks usando v-if/v-else) -->
+<h3>
+  <span v-if="isEditing">Alterar Assinatura do Tenant Corrente</span>
+  <span v-else>Vincular Plano Base para o Novo Tenant Autogerado</span>
+</h3>
+
+<!-- ERRADO (String será repartida e quebrará o compilador!) -->
+<h3>
+  {{ isEditing ? 'Alterar Assinatura do Tenant Corrente' : 'Vincular Plano Base
+  para o Novo Tenant Autogerado' }}
+</h3>
+```
