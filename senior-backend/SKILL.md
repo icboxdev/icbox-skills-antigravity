@@ -13,18 +13,18 @@ Se o sistema funciona mas não escala, ele falhou. Se escala mas não é seguro,
 
 ## 2. Os 10 Pilares do Backend Sênior
 
-| Pilar               | Descrição                                              | Métrica               |
-| ------------------- | ------------------------------------------------------ | --------------------- |
-| **Arquitetura**     | Clean Architecture, DDD, modular boundaries            | Acoplamento baixo     |
-| **API Design**      | REST, GraphQL, gRPC — contracts first                  | Consistency score     |
-| **Database**        | Schema design, indexing, query optimization            | Query time p95        |
-| **Auth & Security** | OWASP, RBAC, OAuth 2.0, input validation               | 0 vulnerabilities     |
-| **Scalability**     | Horizontal, caching, queues, event-driven              | Requests/s under load |
-| **Resiliency**      | Circuit breaker, retry, bulkhead, graceful degradation | Uptime 99.9%+         |
-| **Observability**   | Logs, metrics, traces, alerting                        | MTTD < 5min           |
-| **Testing**         | Unit, integration, contract, load                      | Coverage > 80%        |
-| **DevOps**          | CI/CD, containers, IaC, environments                   | Deploy time < 15min   |
-| **Data Integrity**  | Transactions, migrations, validation, backups          | 0 data loss           |
+| Pilar               | Descrição                                               | Métrica               |
+| ------------------- | ------------------------------------------------------- | --------------------- |
+| **Arquitetura**     | Clean Architecture, DDD, modular boundaries             | Acoplamento baixo     |
+| **API Design**      | REST, GraphQL, gRPC — contracts first                   | Consistency score     |
+| **Database**        | Schema design, indexing, query optimization             | Query time p95        |
+| **Auth & Security** | OWASP, Zero-Trust, RBAC, OAuth 2.0, input validation    | 0 vulnerabilities     |
+| **Scalability**     | Serverless, event-driven (EDA), horizontal scaling      | Requests/s under load |
+| **Resiliency**      | Circuit breaker, retry, bulkhead, graceful degradation  | Uptime 99.9%+         |
+| **Observability**   | AI-driven insights, traces, structured logging, metrics | MTTD < 5min           |
+| **Testing**         | Unit, integration, contract, load                       | Coverage > 80%        |
+| **DevOps**          | CI/CD, containers, IaC, environments                    | Deploy time < 15min   |
+| **Data Integrity**  | Transactions, migrations, validation, backups           | 0 data loss           |
 
 ## 3. Dogmas Inegociáveis
 
@@ -199,6 +199,7 @@ model Project {
 - SEMPRE armazene tokens em **httpOnly, Secure, SameSite cookies**.
 - SEMPRE implemente **rate limiting** — por IP, por user, por endpoint.
 - SEMPRE implemente **RBAC** — role-based access control centralizado.
+- SEMPRE implemente **Zero-Trust Architecture** — serviços internos também exigem autenticação (ex: mTLS ou JWT internal tokens).
 - SEMPRE defina **CORS** restritivo — apenas origens conhecidas.
 - SEMPRE sanitize outputs — previne XSS em APIs que retornam HTML.
 - NUNCA exponha stack traces em produção — log interno, mensagem genérica pro client.
@@ -315,6 +316,7 @@ async callExternalApi(endpoint: string): Promise<ExternalData> {
 
 - SEMPRE use **structured logging** (JSON) — nunca `console.log` em produção.
 - SEMPRE tenha **correlation ID** (request ID) em todos os logs de um request.
+- SEMPRE estruture a observabilidade para suportar **AI-based monitoring** (análise preditiva de anomalias e logs).
 - SEMPRE monitore: request rate, error rate, latency (p50, p95, p99), DB pool.
 - SEMPRE tenha **alertas** para: error rate > threshold, latência alta, disk/memory.
 - SEMPRE log no nível correto: `error` (falha), `warn` (inesperado mas recuperável), `info` (eventos), `debug` (dev).

@@ -99,23 +99,25 @@ model Lead {
 ### 4.1 Sempre usar `select` explícito
 
 ```typescript
-// ✅ CERTO — select explícito (retorna apenas o necessário)
+// ✅ CERTO — select explícito (retorna apenas o necessário) e relationLoadStrategy
 const users = await prisma.user.findMany({
+  relationLoadStrategy: "join", // Evita múltiplas queries no DB
   where: { status: "active" },
   select: {
     id: true,
     name: true,
     email: true,
     _count: { select: { posts: true } },
+    profile: { select: { avatarUrl: true } },
   },
   take: 20,
   orderBy: { createdAt: "desc" },
 });
 
-// ❌ ERRADO — findMany sem select (retorna TODAS as colunas)
+// ❌ ERRADO — findMany sem select (retorna TODAS as colunas) e sem join
 const users = await prisma.user.findMany({
   where: { status: "active" },
-  // Inclui password_hash, tokens, etc!
+  include: { profile: true }, // Dispara queries separadas por default (N+1 potencial)
 });
 ```
 

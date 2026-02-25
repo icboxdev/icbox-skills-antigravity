@@ -317,13 +317,14 @@ src/
 ### Router & Handlers
 
 ```rust
-// CERTO: Router modular com state
+// CERTO: Router modular com state e Tracing
 use axum::{
     Router, Json,
     extract::{State, Path, Query},
     http::StatusCode,
     routing::{get, post, delete},
 };
+use tracing::instrument;
 
 pub fn project_routes() -> Router<AppState> {
     Router::new()
@@ -331,6 +332,7 @@ pub fn project_routes() -> Router<AppState> {
         .route("/{id}", get(get_project).delete(delete_project))
 }
 
+#[instrument(skip(state))]
 async fn list_projects(
     State(state): State<AppState>,
     Query(pagination): Query<PaginationQuery>,

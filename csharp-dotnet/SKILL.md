@@ -185,6 +185,31 @@ public string GetStatusLabel(ProjectStatus status)
 }
 ```
 
+### Collection Expressions (C# 12+) e TimeProvider (.NET 8+)
+
+- SEMPRE use **Collection Expressions** (`[]`) em vez de `new List<T>()` ou `Array.Empty<T>()`.
+- SEMPRE use **`TimeProvider`** via injeção de dependência em vez de `DateTime.UtcNow` para garantir testabilidade.
+
+```csharp
+// CERTO: C# 12 Collection Expressions
+int[] numbers = [1, 2, 3];
+List<string> names = ["Alice", "Bob"];
+Span<byte> buffer = stackalloc byte[1024];
+
+// CERTO: TimeProvider para testes consistentes
+public class ProjectService(TimeProvider timeProvider)
+{
+    public void Create()
+    {
+        var createdAt = timeProvider.GetUtcNow();
+    }
+}
+
+// ERRADO: Sintaxe antiga e relógio global bloqueando testes
+var list = new List<string> { "Alice", "Bob" };
+var createdAt = DateTime.UtcNow; // Testes não controlam o tempo
+```
+
 ## 5. ASP.NET Core — API Design
 
 ### Minimal APIs (Preferido para Microservices)

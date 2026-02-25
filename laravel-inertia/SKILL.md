@@ -11,16 +11,17 @@ description: Validate, generate, and architect Laravel applications with Inertia
 - Faça **micro-commits**: edite um controller/service por vez, nunca reescreva módulos inteiros.
 - Após concluir uma feature, **finalize a task** explicitamente para liberar contexto.
 - Trate **todo input** como hostil. FormRequest é a barreira obrigatória.
+- **Strict PHP Obrigatório**: Todo arquivo PHP gerado DEVE iniciar com `declare(strict_types=1);`.
+- Use PHP 8.2+ `readonly class` para DTOs e Actions que não devem ter estado alterado.
 
-## 2. Estrutura de Projeto
+## 2. Estrutura de Projeto (Laravel 11+)
 
 ```
 app/
 ├── Http/
 │   ├── Controllers/       # Skinny — máx 5 métodos CRUD
 │   ├── Requests/          # FormRequest por ação
-│   ├── Resources/         # API Resources (serialização)
-│   └── Middleware/
+│   └── Resources/         # API Resources (serialização)
 ├── Models/                # Eloquent (scopes, casts, relations)
 ├── Services/              # Lógica de negócio
 ├── Repositories/          # (opcional) Abstração de queries complexas
@@ -29,11 +30,19 @@ app/
 ├── Events/
 ├── Jobs/
 └── Enums/                 # PHP 8.1+ backed enums
+bootstrap/
+└── app.php                # Registro de middlewares e exceptions (L11+)
 ```
 
 ## 3. Controllers — Skinny
 
 ```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
 // ✅ CERTO — controller delega para service, usa FormRequest
 class UserController extends Controller
 {

@@ -11,6 +11,7 @@ description: Validate, optimize, and generate PostgreSQL queries enforcing index
 - Faça **micro-commits**: uma migration por vez.
 - **Nunca confie em inputs** — usar prepared statements ou parameterized queries.
 - Sempre rodar `EXPLAIN ANALYZE` em queries críticas antes de deploy.
+- **Sempre use UUIDv7 para Primary Keys**: Evita fragmentação severa de B-Tree (comum no UUIDv4) pois são ordenáveis no tempo.
 
 ## 2. Índices — Dogmas
 

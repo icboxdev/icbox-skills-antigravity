@@ -99,33 +99,37 @@ PaymentDTO = Annotated[
 
 ## 4. Injeção de Dependências — Dogmas
 
-### 4.1 Nunca instanciar serviços diretamente
+### 4.1 Nunca instanciar serviços diretamente e USE `Annotated`
+
+Em 2026, **nunca** use `= Depends(...)` solto nos parâmetros da rota. Crie tipos `Annotated` reutilizáveis para injeção limpa.
 
 ```python
-# ✅ CERTO — inversão de dependência via Depends
+# ✅ CERTO — inversão de dependência via Annotated
 from fastapi import Depends
+from typing import Annotated
 
 class UserService:
     def __init__(self, repo: UserRepository) -> None:
         self.repo = repo
 
 def get_user_service(
-    repo: UserRepository = Depends(get_user_repository),
+    repo: Annotated[UserRepository, Depends(get_user_repository)],
 ) -> UserService:
     return UserService(repo=repo)
+
+UserServiceDep = Annotated[UserService, Depends(get_user_service)]
 
 @router.post("/users")
 async def create_user(
     dto: UserCreateDTO,
-    service: UserService = Depends(get_user_service),
+    service: UserServiceDep,
 ) -> UserResponseDTO:
     return await service.create(dto)
 
-# ❌ ERRADO — acoplamento direto
+# ❌ ERRADO — acoplamento direto ou sintaxe verbosa antiga
 @router.post("/users")
-async def create_user(dto: UserCreateDTO):
-    service = UserService()  # Instancia direta, impossível testar
-    return await service.create(dto)
+async def create_user(dto: UserCreateDTO, service: UserService = Depends(get_user_service)): # verboso!
+    pass
 ```
 
 ### 4.2 Configuração por BaseSettings
@@ -152,21 +156,22 @@ def get_settings() -> Settings:
 - **async def** para todo I/O (database, HTTP, filesystem).
 - **def** (sync) apenas para lógica CPU-bound pura.
 - Nunca misture sync blocking I/O dentro de async — use `run_in_executor`.
+- **SQLAlchemy 2.0+ Obrigatório**: Apenas estilo 2.0. Proibido usar `.query()`. Sempre use `select()`, `execute()`, e retornos via `scalars()`.
 
 ```python
-# ✅ CERTO — async para I/O
+# ✅ CERTO — async para I/O + SQLAlchemy 2.0
 @router.get("/users/{user_id}")
-async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
+async def get_user(user_id: int, db: AsyncSessionDep):
     result = await db.execute(select(User).where(User.id == user_id))
     user = result.scalar_one_or_none()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-# ❌ ERRADO — sync bloqueante em contexto async
+# ❌ ERRADO — SQLAlchemy 1.x style (blocking ou obsoleto)
 @router.get("/users/{user_id}")
 async def get_user(user_id: int):
-    user = db.query(User).get(user_id)  # BLOQUEIA o event loop
+    user = db.query(User).get(user_id)  # BLOQUEIA o event loop e db.query é legacy
     return user
 ```
 

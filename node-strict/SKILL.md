@@ -16,7 +16,8 @@ description: Validate, architect, and generate Node.js APIs ensuring structural 
 ### Princípios Obrigatórios
 
 - **SRP (Single Responsibility)**: Controllers lidam com HTTP. Services processam regras de negócio. Repositories acessam dados.
-- **`any` é proibido**: Proibido usar `any` em todo o repositório. Use `unknown` com guard expressions.
+- **`any` é proibido**: Proibido usar `any` em todo o repositório. Use `unknown` com type guards.
+- **Strict TypeScript**: Cógido Node.js DEVE operar com `strict: true` e `noUncheckedIndexedAccess: true` no `tsconfig.json`.
 
 ### Few-Shot: DTO e Reposta
 
@@ -89,10 +90,11 @@ if (!user) {
 }
 ```
 
-## 5. Performance Node.js
+## 5. Performance Node.js (2026)
 
-- **Event Loop Bloqueado**: Jamais use funções síncronas do `fs` (`fs.readFileSync`) em controllers ou serviços quentes. Force o uso de `fs/promises`.
-- Cache: Se consultar a mesma tabela de configurações em todo request, proponha a injeção do gerenciador de Cache (`Redis` ou In-memory).
+- **Event Loop Bloqueado**: Jamais use funções síncronas de I/O (`fs.readFileSync`), Crypto pesada de forma síncrona ou Regex complexas em rotas quentes. Isso derruba a API.
+- **Worker Threads**: Se a operação for CPU-bound (ex: processamento de imagem, cálculos grandes), delegue para Worker Threads ou Message Queues.
+- **Cache**: Se consultar dados estáticos ou de baixa mudança, implemente cache em memória (LRU) ou Redis para evitar sobrecarga no banco.
 
 ## Resumo do Escopo
 
