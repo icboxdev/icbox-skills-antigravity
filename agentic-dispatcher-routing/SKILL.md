@@ -35,3 +35,12 @@ Sempre que o Agente for invocado explicitamente por macros focadas em delegaçã
 
 ## Padrão ERRADO (O que NUNCA fazer)
 - O Agente vê a palavra "frontend" e pressupõe cegamente que é React, começando a escrever `useState` e JSX em um repo puro Svelte. O Dispatcher existe exatamente para matar premissas equivocadas. Sem confirmação prévia (read_file de package lock) não há delegação de código.
+
+## Regra Global do Dispatcher: Scripts Temporários
+
+O Dispatcher **DEVE** garantir que nenhuma skill ou workflow crie arquivos auxiliares (scripts `.py`, `.sh`, `.js`, etc.) dentro do diretório do projeto do usuário.
+
+- Scripts temporários → **SEMPRE em `/tmp/`**.
+- Remover após execução.
+- Violar esta regra é considerado **poluição de repositório** e deve ser tratado como bug crítico.
+

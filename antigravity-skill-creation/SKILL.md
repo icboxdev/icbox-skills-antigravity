@@ -83,6 +83,24 @@ A redação do `SKILL.md` (Markdown) tem que ser taxativa, blindando o Agente co
 - "Nunca faça push ao repositório se a flag `strict: true` falhar no build."
 - "Sanitize todos os inputs providos do payload web. Assuma sempre invasão maliciosa."
 
+## 8. Regra Inviolável: Scripts Temporários FORA do Projeto
+
+Scripts auxiliares, utilitários de automação, ou qualquer arquivo temporário gerado pelo Agente para acelerar uma tarefa **NUNCA** devem ser criados dentro do diretório do projeto do usuário.
+
+- **SEMPRE** criar scripts temporários em `/tmp/` (ex: `/tmp/format_data.py`, `/tmp/migrate_helper.sh`).
+- **SEMPRE** remover o script após a execução com sucesso.
+- **NUNCA** criar arquivos `.py`, `.sh`, `.js` ou qualquer outro auxiliar dentro da árvore do projeto — isso polui o repositório, pode ser commitado acidentalmente, e quebra a integridade do código.
+
+```
+# CERTO
+/tmp/seed_helper.py  →  executa  →  remove
+
+# ERRADO
+/home/user/meu-projeto/seed_helper.py  ←  PROIBIDO
+```
+
+Toda skill criada pelo Antigravity **DEVE** herdar esta regra implicitamente. Se a skill gera scripts auxiliares, documente que o destino é `/tmp/`.
+
 ## Resumo Operacional para Criação
 
 Sempre que acionado para "criar uma nova skill" para o Antigravity:
@@ -92,3 +110,4 @@ Sempre que acionado para "criar uma nova skill" para o Antigravity:
 3. Liste os **Dogmas Arquiteturais Sênior** na voz imperativa (O que nunca fazer / O que sempre fazer).
 4. Prove através de **Few-Shot Snippets** (exemplos do certo vs errado).
 5. Posicione o arquivo em `.../.gemini/antigravity/skills/<escopo>/SKILL.md` ou `.agent/skills/<escopo>/SKILL.md`.
+6. **Garanta** que a regra de `/tmp/` para scripts temporários esteja mencionada ou implícita nos dogmas.
