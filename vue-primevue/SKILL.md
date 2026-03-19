@@ -119,3 +119,8 @@ O limite de largura de linha de Auto-Formatters como ESLint/Prettier (printWidth
   para o Novo Tenant Autogerado' }}
 </h3>
 ```
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

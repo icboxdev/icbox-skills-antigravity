@@ -38,3 +38,8 @@ This skill defines the architectural dogmas and absolute best practices for buil
 ### 2. Multi-Tenant Database Optimization
 *   **Dogma:** Helpdesks can generate millions of rows (chat messages).
 *   **Rule:** For B2B platforms, enforce strict Row-Level Security (RLS) or partition tables by `tenant_id` so large enterprise tenants do not destroy query performance for smaller tenants. If using PostgreSQL, consider `PARTITION BY LIST (tenant_id)`.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

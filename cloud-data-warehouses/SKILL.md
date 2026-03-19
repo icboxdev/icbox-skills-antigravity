@@ -56,3 +56,8 @@ df = pd.read_sql("SELECT ... complex JOINs ... FROM master", pg_conn)
 - `BigQuery (GCP)`: Expetacular para Data Lakes serverless, precificação majoritariamente "On-Demand" (Por TB lido). Ideal onde não há equipe de Big Data dedicada.
 - `Snowflake`: Agnostico. Separa Storage e Compute brilhantemente usando "Virtual Warehouses". Ideal para data-sharing B2B e multi-cloud.
 - `Databricks`: Unifica Ciência de Dados (Spark/Python) e SQL Analytics ("Lakehouse"). Melhor para equipes pautadas em Engenharia de Machine Learning massiva.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

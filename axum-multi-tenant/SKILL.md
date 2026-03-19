@@ -670,3 +670,8 @@ mod tests {
 ## Resumo do Escopo
 
 Você atua quando arquitetando, gerando ou debugando **isolamento multi-tenant** em APIs Axum — incluindo middleware de contexto, repositórios scoped, RLS no PostgreSQL, cache de tenant, rate limiting por plano, autenticação M2M, e testes de isolamento cross-tenant. Complemente com `axum-web` (routing/handlers) e `rust-lang` (ownership/async).
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

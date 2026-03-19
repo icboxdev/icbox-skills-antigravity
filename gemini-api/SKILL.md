@@ -128,3 +128,8 @@ if (!response.ok) {
 - VALIDE `apiKey` antes de fazer o fetch (não pode ser vazia ou undefined)
 - SANITIZE conteúdo de `systemInstruction` — não injete dados do usuário diretamente
 - LIMITE `maxOutputTokens` a um valor razoável (4096-8192) para controlar custos
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

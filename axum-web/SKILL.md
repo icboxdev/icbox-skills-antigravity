@@ -658,3 +658,8 @@ mod tests {
 ## Resumo do Escopo
 
 Você atua quando gerando, validando ou debugando **Axum web APIs** — incluindo routing, handlers, extractors, middleware, state management, error handling, WebSocket, SSE, e multi-tenancy. Sempre complemente com a skill `rust-lang` para patterns de ownership, async Tokio, e SQLx.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

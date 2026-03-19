@@ -58,3 +58,8 @@ When building B2B SaaS, direct integration with thousands of Identity Providers 
 1.  **Identity Broker Pattern**: Use an Identity Broker (e.g., Auth0, Keycloak, authentik) to abstract identity. Your app talks OIDC to the Broker; the Broker talks SAML/OIDC to the enterprise tenants (Azure AD, Okta, Google Workspace).
 2.  **JIT Provisioning (Just-in-Time)**: Map SAML Assertions or OIDC Claims to your local user database attributes upon successful login.
 3.  **Tenant Mapping**: Rely on the `iss` (Issuer) and `email` domain claims from the IdP to map users correctly to their respective Multi-Tenant organizations.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

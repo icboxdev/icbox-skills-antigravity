@@ -184,3 +184,8 @@ npx lighthouse http://localhost:3000 --budget-path=./budget.json
 - **NUNCA** colocar componentes pesados (charts, editors) no bundle inicial.
 - **SEMPRE** medir antes e depois de otimizações.
 - **SEMPRE** testar em throttled network (3G) e CPU (4x slowdown).
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

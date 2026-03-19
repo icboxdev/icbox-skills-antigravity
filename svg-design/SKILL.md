@@ -231,3 +231,8 @@ export function CheckIcon({ size = 24, className }: IconProps) {
 - ❌ NUNCA use `transform="rotate()"` para construir letras — trace o path diretamente.
 - ❌ NUNCA gere SVG sem testar a renderização visual.
 - ❌ NUNCA hardcode width/height sem viewBox correspondente.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

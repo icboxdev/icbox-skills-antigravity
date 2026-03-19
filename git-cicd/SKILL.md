@@ -158,3 +158,8 @@ Breve descrição da mudança.
 - ❌ Merge commits (poluem histórico) — usar squash merge
 - ❌ Branch > 1 semana — dividir em PRs menores
 - ❌ CI sem cache — adicionar `actions/cache` ou `setup-node` com cache
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

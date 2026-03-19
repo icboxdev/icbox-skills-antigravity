@@ -114,3 +114,8 @@ For real-time updates (e.g., a long-running download in Rust updating a progress
 *   ❌ **NEVER** use bundled WebViews (like Electron or CEF). Tauri relies on the OS native WebView (WebView2, WKWebView) for automatic security updates.
 *   ❌ **NEVER** trust input from `invoke`. Always sanitize in Rust.
 *   ❌ **NEVER** use `window.location` or standard web routing for desktop apps without considering hash routing (or React Router's `createMemoryRouter`) to avoid filesystem routing bugs in production builds.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

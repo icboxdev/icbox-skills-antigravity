@@ -165,3 +165,8 @@ app.use(PrimeVue, {
 - ❌ Font sizes grandes (`text-lg`, `text-xl`) para texto corrido — manter `text-sm` / `text-[13px]`.
 - ❌ `rounded-full` em cards/containers — usar `rounded-lg` / `rounded-md`.
 - ❌ Gradientes chamativos — fundo sólido ou gradiente extremamente sutil.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

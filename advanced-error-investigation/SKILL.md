@@ -41,3 +41,8 @@ Se o usuário reportar lentidão extrema:
 2. Isolar a origem no código, verificando o stack trace (RCA).
 3. Testar a suposição com comandos diretos (`grep`, inspeção visual de tipos) ou solicitar ao usuário inspeção de DevTools/Network Tab.
 4. Aplicar correção focada única no arquivo raiz do problema. Nunca refatore lógica vizinha antes que o erro central esteja consertado.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

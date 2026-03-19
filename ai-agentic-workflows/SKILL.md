@@ -34,3 +34,8 @@ This skill defines the architectural dogmas and absolute best practices for buil
 *   **Dogma:** The LLM cannot invent tool parameters.
 *   **Rule:** All tools MUST be defined with strict JSON Schema (or Pydantic models).
 *   **Rule:** If a tool call fails (e.g., `400 Bad Request` or generic error), catch the error, format it gracefully (`"Tool failed with: <error_msg>. Please fix your arguments and try again."`), and pass it back to the agent as an `Observation` so it can self-correct. Do not crash the graph.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

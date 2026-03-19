@@ -189,3 +189,8 @@ export default defineConfig({
 - ❌ Testes que chamam API real (flaky) — mock HTTP em unit tests
 - ❌ `setTimeout` para esperar — usar `waitFor`, `expect.poll`, retries
 - ❌ Ignorar cleanup — `afterEach(() => vi.restoreAllMocks())`
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

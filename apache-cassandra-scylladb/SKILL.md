@@ -50,3 +50,8 @@ Cassandra/ScyllaDB excels at time-series data (logs, IoT metrics), but requires 
 *   ❌ **NEVER** read across multiple partitions (`SELECT * FROM table WHERE clustering_col = 'x' ALLOW FILTERING`). This forces a full cluster scan and will crash production. Queries MUST include the partition key (`WHERE partition_key = 'y'`).
 *   ❌ **NEVER** use Secondary Indexes (2i) to model relationships. They scale terribly. If you need to query by another field, create a new denormalized table or use Storage-Attached Indexing (SAI).
 *   ❌ **NEVER** treat Cassandra like a queue (frequent inserts followed by frequent deletes). Deletes in Cassandra create "Tombstones" (invisible markers). A query scanning over thousands of tombstones will time out. Use TTL (Time To Live) for expiring data instead of explicit `DELETE` statements.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -290,3 +290,8 @@ async fn handle_error(err: AppError) -> impl IntoResponse {
 - [ ] **Permissions-Policy** — desabilitar APIs desnecessárias (camera, mic, geo).
 - [ ] **Request size limit** — body size máximo configurado (ex: 10MB).
 - [ ] **Timeout em endpoints** — prevenir slow loris e request hanging.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

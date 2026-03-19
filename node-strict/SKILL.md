@@ -99,3 +99,8 @@ if (!user) {
 ## Resumo do Escopo
 
 Você só atua quando orquestrando, debugando ou gerando Node.js. Pare sua tarefa e peça aprovação após fechar a construção arquitetural (Module, Controller, Service).
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

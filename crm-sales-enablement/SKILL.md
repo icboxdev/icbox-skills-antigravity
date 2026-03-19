@@ -277,3 +277,8 @@ async function getDeals(filters: DealFilters) {
 - Audit trail: logar quem acessou qual dado quando.
 - Sanitizar merge tags em email templates (`{{contact.firstName}}`).
 - Rate limiting em APIs públicas e webhooks.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

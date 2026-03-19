@@ -59,3 +59,8 @@ async function loginUser(req, res) {
 - **BOLA (Broken Object Level Authorization)**: ID checks MUST be made against the authenticated user ownership, not just existence in the database.
 - **Unrestricted Resource Consumption**: Enforce strict pagination limits (`max=100`), timeout constraints on DB queries, and max payload size limits (`client_max_body_size`) to prevent ReDoS or Memory Exhaustion.
 - **Improper Inventory Management**: Block "Shadow APIs". Ensure API Gateways enforce strict schema validation for all incoming traffic routes. Traffic not matching a valid Swagger/OpenAPI spec MUST be dropped.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

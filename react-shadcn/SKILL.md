@@ -229,3 +229,8 @@ const handleSubmit = (data: CreateContactDto) => {
 - ❌ NUNCA pule validação server-side — zero-trust
 - ❌ NUNCA remova aria-* dos primitivos Radix
 - ❌ NUNCA misture server state (API data) no Zustand
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

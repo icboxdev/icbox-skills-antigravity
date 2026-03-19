@@ -266,3 +266,8 @@ const dateRange = z.object({
 - **NUNCA** usar `any` em tipos de form — derivar tudo de `z.infer<typeof schema>`.
 - **NUNCA** fazer `form.setValue` sem `{ shouldValidate: true }` quando o valor vem de fonte externa.
 - **SEMPRE** mostrar erros inline abaixo do campo, nunca apenas em toast.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

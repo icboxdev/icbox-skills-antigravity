@@ -39,3 +39,8 @@ export default function TabLayout() {
   return <Tabs screenOptions={{ headerShown: false }} />;
 }
 ```
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

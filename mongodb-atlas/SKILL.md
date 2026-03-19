@@ -79,3 +79,8 @@ Para ambientes MongoDB SaaS B2B, a arquitetura moderna evita o "Database-per-Ten
 - **Pool Management:** Crie UM ÚNICO CLUSTER Atlas auto-escalável.
 - **Isolamento de Dados:** Insira e indexe `tenant_id` em todos os collections massivos. Crie Índices Compostos que INICIEM pelo `tenant_id` (`{ tenant_id: 1, created_at: -1 }`).
 - **Dedicated Hardware (Opcional):** Se um Tenant for Enterprise tier gigantesco, realoque SOMENTE ELE para um Cluster Atlas dedicado via sharding isolado ou app-logic router.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

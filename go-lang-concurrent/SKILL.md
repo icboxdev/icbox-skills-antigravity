@@ -54,3 +54,8 @@ func FetchUser(ctx context.Context, id string) (*User, error) {
 *   ❌ **NEVER** launch a Goroutine without a clear exit condition. If a Goroutine waits on a channel that is never written to or closed, it will leak memory permanently. ALWAYS pipe a `ctx.Done()` channel into every Goroutine's `select` statement.
 *   ❌ **NEVER** use `time.Sleep()` to coordinate Goroutines. Use Channels or `sync.WaitGroup` for deterministic synchronization.
 *   ❌ **NEVER** use `context.WithValue` to pass optional arguments, database connections, or core business logic data. Use it ONLY for cross-cutting tracing IDs, Auth Tokens, or strictly Request-Scoped metadata. Use custom unexported types as context keys to prevent collisions.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -220,3 +220,8 @@ api.interceptors.response.use(
 - ❌ NUNCA mute state diretamente — sempre via `set()`
 - ❌ NUNCA crie mega-stores — máximo 1 store por domínio
 - ❌ NUNCA persista dados sensíveis (tokens completos) sem encryption
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

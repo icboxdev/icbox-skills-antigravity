@@ -326,3 +326,8 @@ const response = await fetch(`${baseUrl}/api/sendImage`, {
 - Both share the same conceptual operations: create, connect (QR), send, receive (webhook).
 - The adapter should normalize chatId formats (`@s.whatsapp.net` ↔ `@c.us`).
 - The adapter should normalize webhook payloads to a common internal format.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

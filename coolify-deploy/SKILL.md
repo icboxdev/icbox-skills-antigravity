@@ -107,3 +107,8 @@ Alternativa: habilitar webhook automático no Coolify (Settings → Git → Auto
 - Secrets nunca em `.env` commitado — usar CI/CD secrets.
 - Monitorar logs de deploy para erros silenciosos.
 - Backup automático de databases antes de cada deploy destrutivo.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

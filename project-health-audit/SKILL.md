@@ -49,3 +49,8 @@ You must apply specific lenses depending on the stack discovered:
 "**[HIGH] Event Loop Block em `auth.controller.ts:45`**
 A função está usando `bcrypt.hashSync()` dentro de um handler Fastify. Isso bloqueia a thread principal do Node para todos os outros requests enquanto a hash é calculada.
 **Correção:** Altere para a versão assíncrona `await argon2.hash()` e mude a função para `async`."
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

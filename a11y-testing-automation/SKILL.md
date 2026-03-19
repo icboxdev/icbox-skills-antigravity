@@ -330,3 +330,8 @@ Novos critérios WCAG 2.2 (automatizáveis parcialmente):
 - [ ] **Alt text** — toda imagem tem alt descritivo (ou alt="" se decorativa).
 - [ ] **aria-label** — botões de ícone, links ambíguos, inputs sem label.
 - [ ] **Heading hierarchy** — h1 único por página, sem pular níveis.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

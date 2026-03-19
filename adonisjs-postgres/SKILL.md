@@ -253,3 +253,8 @@ O AdonisJS usa o Knex por baixo. No arquivo `config/database.ts`:
 - ❌ `.save()` dentro de loop (use `createMany` ou transactions).
 - ❌ Controllers gordinhos com mais de 100 linhas (mova para Service).
 - ❌ Logar o objeto de Request completo (vaza PII e tokens). Use o `@adonisjs/logger` (Pino) com serialização segura.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

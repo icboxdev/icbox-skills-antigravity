@@ -178,3 +178,8 @@ return Inertia::render('Users/Index', [
 - Rate limiting em rotas de login/API via `throttle` middleware.
 - Secrets via `.env`. Nunca hardcode.
 - Mass assignment protegido: usar `$fillable` explícito nos Models.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

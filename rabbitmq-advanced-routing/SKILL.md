@@ -82,3 +82,8 @@ def callback(ch, method, properties, body):
 ## 🧠 Best Practices (2024-2025)
 - **Idempotency**: Message redelivery can and will happen (At-Least-Once delivery). Consumers MUST be idempotent. Check the database if a message ID has already been successfully processed before acting.
 - **Prefetch Count (QoS)**: Always set a sensible `prefetch_count` (e.g., 10-50). If left at default (unlimited), RabbitMQ pushes millions of messages into RAM of a single slow worker, crashing it via OOM.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

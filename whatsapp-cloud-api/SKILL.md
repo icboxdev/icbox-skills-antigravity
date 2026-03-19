@@ -151,3 +151,8 @@ app.post("/webhook/whatsapp", (req, res) => {
 - HTTPS obrigatório no endpoint de webhook.
 - Rate limiting no servidor para evitar loops de webhook.
 - Responder `200` antes de processar (evitar retries do Meta).
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

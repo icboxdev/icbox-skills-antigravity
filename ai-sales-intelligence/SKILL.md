@@ -200,3 +200,8 @@ Combinar 4 métodos: Stage-Weighted (20%) + Historical Trends (25%) + AI Predict
 - **Recording Consent**: aviso obrigatório no início de calls gravadas.
 - **RBAC**: reps veem seus deals, managers veem equipe.
 - **Encryption at Rest**: transcrições e gravações são dados sensíveis.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

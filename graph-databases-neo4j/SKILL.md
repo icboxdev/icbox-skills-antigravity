@@ -55,3 +55,8 @@ Neo4j is a foundational technology for advanced Retrieval-Augmented Generation (
 *   ❌ **NEVER** execute unbounded queries like `MATCH (n)-[r]-(m) RETURN n, r, m` in production. Always anchor the pattern with a specific, indexed starting node.
 *   ❌ **NEVER** use dense nodes (supernodes) without care. A node with millions of edges (e.g., a "User" node representing a famous celebrity followed by millions) will throttle traversal performance. Use Neo4j's specific optimizations for dense nodes or refactor the model.
 *   ❌ **NEVER** use Neo4j when the workload is purely aggregate-heavy reporting (e.g., `SUM(revenue) GROUP BY month` across billions of records). Use a Columnar OLAP DB (ClickHouse, BigQuery) for that.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

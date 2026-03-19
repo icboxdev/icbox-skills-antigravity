@@ -282,3 +282,8 @@ let contacts = sqlx::query_as!(
 - ❌ NUNCA edite migrations já aplicadas
 - ❌ NUNCA use `.unwrap()` em results de query — sempre `?` ou pattern match
 - ❌ NUNCA crie Pool sem max_connections
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

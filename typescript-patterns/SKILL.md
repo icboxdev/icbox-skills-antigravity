@@ -214,3 +214,8 @@ process(42); // ✅ Compila!
 - ❌ `enum` numérico — usar `as const` + `typeof` ou string unions
 - ❌ `Function` type — usar signature explícita `(args: T) => R`
 - ❌ `Object` / `{}` — usar `Record<string, unknown>` ou tipo específico
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

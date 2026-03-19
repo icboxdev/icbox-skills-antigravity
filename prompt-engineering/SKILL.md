@@ -244,3 +244,8 @@ Você tem acesso às seguintes ferramentas:
 - ❌ **Prompt hardcoded**: nunca versionar prompts → salvar em arquivo, usar Git
 - ❌ **Ignorar contexto**: não dar background → incluir stack, projeto, domínio
 - ❌ **Over-prompting**: prompt de 2000 palavras → conciso, cada palavra conta
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

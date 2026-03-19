@@ -289,3 +289,8 @@ CHECKLIST DE INCIDENTE:
 - [ ] **Breach notification** — plano de incidente, 3 dias úteis para ANPD.
 - [ ] **Minimização** — coletar APENAS o necessário, sem campos "por via das dúvidas".
 - [ ] **DPO designado** — informações de contato público.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

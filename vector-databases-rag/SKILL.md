@@ -77,3 +77,8 @@ const finalTop3 = await rerankResults(userQuery, results);
 - `Pinecone`: Serverless cloud managed, ideal se não quer tratar DevOps. Performance líder em baixa latência.
 - `Milvus` / `Qdrant`: Escala extrema corporativa em clusters (Bilhões de parâmetros).
 - `Weaviate`: Combina muito bem buscas híbridas (Keyword BM25 + VETOR) nativamente (GraphQL + Nodes semânticos).
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

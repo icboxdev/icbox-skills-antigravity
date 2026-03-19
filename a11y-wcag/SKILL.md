@@ -166,3 +166,8 @@ description: Validate, enforce, and generate accessible web interfaces following
 - [ ] Conteúdo dinâmico com `aria-live`
 - [ ] Testar com screen reader (NVDA, VoiceOver)
 - [ ] Testar navegação completa apenas com teclado
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

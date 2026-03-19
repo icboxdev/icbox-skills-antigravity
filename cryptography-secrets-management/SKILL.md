@@ -71,3 +71,8 @@ const cipher = crypto.createCipheriv('aes-256-gcm', DEK, staticIv);
 - **Dynamic Secrets (Vault)**: Prefer generating temporary, short-lived credentials (e.g., a DB user that expires in 1 hour) instead of long-lived static passwords.
 - **Least Privilege IAM**: The IAM Role of the application should only have `kms:Decrypt` and `kms:GenerateDataKey` permissions. It should NOT have admin access to the key policy.
 - **Audit Trails**: Ensure AWS CloudTrail or Vault Audit Logging is active. Every decryption of a DEK is an audit event tied to a specific machine identity.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

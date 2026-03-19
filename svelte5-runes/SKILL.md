@@ -43,3 +43,8 @@ You are a Frontend Architect expert in compiler-based reactivity. Svelte 5 funda
 </script>
 <button onclick={() => count++}>{double}</button>
 ```
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

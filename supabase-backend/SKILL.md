@@ -230,3 +230,8 @@ onUnmounted(() => supabase.removeChannel(channel));
 - [ ] Storage policies por bucket + path
 - [ ] Edge Functions com JWT verify habilitado
 - [ ] Variáveis sensíveis no Vault, não em `.env` commitado
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

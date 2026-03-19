@@ -79,3 +79,8 @@ async fn handle_request(state: Arc<AppState>) {
 - **Unary**: Standard Request/Response. Use for 95% of use cases.
 - **Server Streaming**: Use when downloading massive files or reading large database cursors line-by-line without exhausting RAM.
 - **Bi-Directional Streaming**: Use for complex handshakes, continuous chat, or real-time gaming state syncs where both parties send and receive asynchronously on a persistent pipe. Do not overuse simply to replace Unary calls, as Streams are pinned to a single server pod and break standard Layer 7 load balancing.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

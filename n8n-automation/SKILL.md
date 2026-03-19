@@ -153,3 +153,8 @@ Error Trigger → Code (extrair detalhes) → Slack/Email (notificar)
 - [ ] Credenciais no credential manager (nunca plaintext)
 - [ ] `NODE_FUNCTION_ALLOW_EXTERNAL` restrito
 - [ ] Atualizar n8n regularmente
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

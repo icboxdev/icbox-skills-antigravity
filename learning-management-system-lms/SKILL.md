@@ -38,3 +38,8 @@ This skill defines the architectural dogmas and absolute best practices for buil
 *   **Dogma:** SCORM is legacy XML. Build modern event-driven architectures.
 *   **Rule:** Emit granular Domain Events (e.g., `CourseCompleted`, `QuizPassed_With_Score_95`).
 *   **Rule:** A separate asynchronous worker listens to these events to award Badges, Certificates, or trigger email automation, completely decoupled from the main HTTP response cycle.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

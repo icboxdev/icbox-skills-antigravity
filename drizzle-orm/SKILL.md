@@ -66,3 +66,8 @@ Em CI/CD para Next.js App Router (onde deploys e migrações são desacoplados):
 1. **Commit:** Desenvolvedor altera o `schema.ts`. Roda `npx drizzle-kit generate`.
 2. **Review:** DBAs/Sêniors olham a pasta `drizzle/0001_initial.sql` dentro do PR.
 3. **Deploy Migration:** O Action do GitHub roda Script Customizado instanciando o Driver do Cloudflare/Neon e acionando pacote `migrate(db, { migrationsFolder: 'drizzle' })` antes do Next-build.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

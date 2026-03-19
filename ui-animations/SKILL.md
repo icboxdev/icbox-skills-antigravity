@@ -156,3 +156,8 @@ Usar apenas quando Framer Motion não suporta (scroll-triggered, SVG morph, canv
 - ❌ Animações em listas sem `key` estável → causa flickering.
 - ❌ Parallax pesado em mobile → janky, drenar bateria.
 - ❌ Transições em `display: none/block` → usar `opacity` + `pointer-events`.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -58,3 +58,8 @@ This skill defines the architectural dogmas and absolute best practices for buil
 *   ❌ **NEVER** use SDUI for applications that are primarily complex animations, games, or heavily reliant on device-native sensors (camera, gyroscope) where the state mutates 60 times per second. SDUI shines in content-heavy, marketing-driven, or form-heavy surfaces.
 *   ❌ **NEVER** embed business logic directly into the UI payload (e.g., sending raw JavaScript strings to be `eval()`'d on the client). The payload must remain declarative (JSON/Protobuf). Action triggers should just dictate endpoints to hit or deep links to open.
 *   ❌ **NEVER** attempt to build an SDUI framework from scratch if a robust Design System does not already exist. Without a standardized component library, SDUI becomes a maintenance nightmare.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

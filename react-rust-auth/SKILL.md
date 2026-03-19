@@ -117,3 +117,8 @@ pub async fn require_auth(
 
 ## 5. Gerenciamento de Mutações com Zod e RHF
 No Frontend, **nunca confie que e-mails e senhas enviadas estão sanitizados**. Utilize React Hook Form associado a um Zod Schema Server-Side e Client-Side (`z.string().email()`, `z.string().min(8)`) para mitigar payload drops desnecessários e DDoS.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

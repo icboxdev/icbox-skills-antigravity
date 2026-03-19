@@ -266,3 +266,8 @@ function CustomDrawer({ open }: { open: boolean }) {
 - **NUNCA** criar componentes inline (modais, alerts) quando shadcn já oferece equivalente.
 - **SEMPRE** propagar `className` via `cn()` em componentes custom para permitir override.
 - **SEMPRE** usar `forwardRef` em componentes que wrappam Radix primitives.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -190,3 +190,8 @@ Ao auditar uma página, verificar nesta ordem:
 - **NUNCA** usar `space-y-*` como wrapper root de página — substituir por `flex flex-col gap-*`.
 - **SEMPRE** testar layout em viewport estreito (mobile) e largo (desktop).
 - **SEMPRE** verificar se sticky headers funcionam após mudanças de layout.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

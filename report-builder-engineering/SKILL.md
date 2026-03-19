@@ -1163,3 +1163,8 @@ frontend/ (React)
 - [ ] **Preview antes de import** — nunca importar sem preview + confirmação do usuário.
 - [ ] **Error reporting** — import retorna erros por linha/coluna com valor problemático.
 - [ ] **Multi-tenant** — `tenant_id` em toda query, templates e dados isolados por tenant.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

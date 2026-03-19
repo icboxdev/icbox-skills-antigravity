@@ -237,3 +237,8 @@ Todo projeto DEVE usar CSS variables no `:root` e `.dark`, seguindo o padrão sh
 | Label         | 12px       | 500    | `text-xs font-medium`                    |
 | Section label | 11px upper | 500    | `text-[11px] uppercase tracking-wider font-medium` |
 | Code/mono     | 13px       | 400    | `font-mono text-[13px]`                  |
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

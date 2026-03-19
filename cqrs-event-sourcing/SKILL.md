@@ -44,3 +44,8 @@ This skill defines the architectural dogmas and absolute best practices for buil
 *   ❌ **NEVER** use Event Sourcing for generic CRUD applications. The complexity overhead is massive. Use it ONLY for core business domains where the audit trail, point-in-time recovery, or extreme read/write asymmetric scalability is absolutely crucial (e.g., accounting ledgers, high-frequency trading, complex logistics).
 *   ❌ **NEVER** store PII (Personally Identifiable Information) directly inside immutable events if you must comply with GDPR/LGPD "Right to be Forgotten". Use Crypto-Shredding: encrypt PII in the event payload using a tenant/user-specific encryption key, and "delete" the user by throwing away their encryption key.
 *   ❌ **NEVER** let the Read Model dictate the Event schema. Events are domain facts, not UI data structures.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

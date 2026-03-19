@@ -30,3 +30,8 @@ This skill defines the architectural dogmas and absolute best practices for buil
 *   **Dogma:** In Voice-to-Voice conversational AI, waiting for the entire LLM response to complete before generating Text-to-Speech (TTS) creates an unacceptably delayed, robotic experience.
 *   **Rule:** The LLM MUST output text natively via Streaming (Server-Sent Events).
 *   **Rule:** Implement queue-based token accumulation: As soon as the streaming LLM generates the first full sentence (detected via punctuation `.` or `?`), immediately dispatch that sentence chunk to the TTS engine while the LLM continues generating the rest in the background. This drops Time-to-First-Byte audio latency to <500ms.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

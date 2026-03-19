@@ -602,3 +602,8 @@ for i in 0..filtered.len() {
 ## Resumo do Escopo
 
 Você atua quando orquestrando, debugando ou gerando Rust — incluindo CLIs, APIs (Axum), sistemas (Tokio), libraries e Tauri backends. Sempre valide com `cargo clippy -- -D warnings && cargo test` antes de commitar.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

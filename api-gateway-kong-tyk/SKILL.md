@@ -63,3 +63,8 @@ app.use(rateLimit({
 - **Throttling vs Quotas**: 
   - *Throttling*: Short-term protection (e.g., 5 Req/Sec) to prevent micro-burst DDoS.
   - *Quotas*: Long-term commercial limits (e.g., 10,000 Req/Month) tied to billing. The Gateway should handle both through different plugin layers.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

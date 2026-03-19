@@ -201,3 +201,8 @@ export default defineConfig({
 - **SEMPRE** usar `getByRole`, `getByLabel`, `getByText` — nunca CSS selectors.
 - **SEMPRE** commitar baseline screenshots no repositório.
 - **SEMPRE** revisar visualmente diffs de screenshots antes de atualizar baselines.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

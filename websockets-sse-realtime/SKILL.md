@@ -64,3 +64,8 @@ io.on('connection', (socket) => {
 - **Memory per Connection**: Every TCP connection consumes RAM. Optimize the socket object footprint.
 - **Heartbeats & Ping/Pong**: To detect broken connections (e.g., user went into a tunnel), the server MUST implement periodic Ping/Pong frames to clean up dead sockets and free memory.
 - **Connection Storms**: If the server restarts, 100,000 clients will reconnect simultaneously. Use a randomized jitter delay on the client-side reconnection logic to prevent a DDoS sequence.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

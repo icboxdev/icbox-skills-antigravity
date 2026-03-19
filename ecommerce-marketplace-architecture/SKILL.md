@@ -38,3 +38,8 @@ This skill defines the architectural dogmas and absolute best practices for buil
 ### 2. Inventory Eventual Consistency vs. Hard Locks
 *   **Dogma:** Do not lock the Inventory database row when a user simply puts an item in their cart.
 *   **Rule:** Implement soft reservations (e.g., holding stock in a fast Redis cache with a 15-minute TTL when the user enters the checkout funnel). Hard deduction only occurs on successful payment authorization.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

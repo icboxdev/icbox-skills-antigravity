@@ -53,3 +53,8 @@ Sempre que analisar ou gerar componentes, force a validação de a11y:
 1. **Scoping:** Analise layouts base, navigations e forms. Encontrou código duplicado? Fatore em compenente compartilhado.
 2. **Type Check:** Procure por `any` usando busca por pattern e remova.
 3. **Refatoração:** Ao refatorar, divida grandes monolitos (>200 linhas) em sub-componentes puros.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

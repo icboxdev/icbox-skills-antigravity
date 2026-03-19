@@ -89,3 +89,8 @@ propagation.inject(context.active(), headers);
 
 const response = await fetch("http://service-b/api/users", { headers });
 ```
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+
