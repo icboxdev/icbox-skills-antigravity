@@ -1,195 +1,118 @@
 ---
 name: Flutter + Riverpod/BLoC
-description: Validate, generate, and architect Flutter applications using Riverpod for state management, Sound Null Safety, and clean separation of concerns. Enforces typed providers, immutable state, and widget composition best practices.
+description: Validate, generate, and architect Flutter applications using Riverpod for state management, Sound Null Safety, and clean separation of concerns. Enforces typed providers, immutable state, feature-first structure, and widget composition best practices.
 ---
 
-# Flutter + Riverpod — Diretrizes Sênior
+# 🦋 Flutter + Riverpod Architecture & Mastery
 
-## 1. Zero-Trust & Limites de Contexto
+This skill defines the architectural dogmas and absolute best practices for building scalable, maintainable, and high-performance cross-platform applications using **Flutter** and **Riverpod** (or BLoC) following Clean Architecture principles.
 
-- **Antes de gerar qualquer feature**, externalize a arquitetura proposta em um artefato (`AI.md` ou `/brain/`).
-- Faça **micro-commits**: edite um widget/provider por vez, nunca reescreva árvores de widgets inteiras.
-- Após concluir uma feature, **finalize a task** explicitamente para liberar contexto.
-- **Sound Null Safety** é inegociável — nunca use `!` sem checar `null` antes.
+## 🏛️ Architectural Dogmas (Clean Architecture)
 
-## 2. Estrutura de Projeto Obrigatória
+Your Flutter applications MUST be strictly divided into three distinct layers, ensuring a unidirectional flow of dependencies (inward-pointing):
 
-```
+1.  **Domain Layer (Core):**
+    *   **Dogma:** MUST be pure Dart. Zero dependencies on Flutter UI frameworks (`package:flutter/material.dart`, etc.) or third-party libraries (except maybe Equatable/Freezed).
+    *   **Contents:** Entities (plain Dart classes), Repository Interfaces (Contracts), and Use Cases (Business Logic).
+    *   **Rule:** Use cases must be small, single-responsibility classes.
+
+2.  **Data Layer (Infrastructure):**
+    *   **Dogma:** Implements the Domain repository interfaces. Communicates with external APIs, local databases (Isar/Hive/SQLite), and handles data serialization.
+    *   **Contents:** Repository Implementations, Data Sources (Remote/Local), and DTOs/Models (with `json_serializable` or `freezed`).
+    *   **Rule:** Data mappers MUST exist here to translate DTOs into pure Domain Entities before returning them to the Domain/Presentation layers.
+
+3.  **Presentation Layer (UI):**
+    *   **Dogma:** Contains Flutter Widgets and State Management (Riverpod Providers).
+    *   **Rule:** Widgets MUST be dumb. They only listen to state (via `ref.watch`) and dispatch events to Providers. They NEVER contain business logic or make direct API calls.
+
+**Directory Structure (Feature-First):**
+```text
 lib/
-├── main.dart
-├── app.dart                 # MaterialApp + ProviderScope
-├── core/
-│   ├── constants/
-│   ├── theme/
-│   ├── router/              # GoRouter ou AutoRoute
-│   └── utils/
-├── features/
-│   └── auth/
-│       ├── data/
-│       │   ├── repositories/  # Implementações
-│       │   └── sources/       # Remote/Local data sources
-│       ├── domain/
-│       │   ├── models/        # Entidades imutáveis
-│       │   └── repositories/  # Abstrações (interfaces)
-│       └── presentation/
-│           ├── providers/     # Riverpod providers
-│           ├── screens/       # Páginas
-│           └── widgets/       # Componentes reutilizáveis
-└── shared/
-    ├── providers/             # Providers globais (auth, dio)
-    └── widgets/               # Widgets genéricos
+├── src/
+│   ├── features/
+│   │   ├── authentication/
+│   │   │   ├── data/          # Repositories, Data Sources
+│   │   │   ├── domain/        # Entities, Use Cases
+│   │   │   └── presentation/  # Widgets, Controllers, Providers
+│   │   └── products/
+│   └── routing/             # go_router configuration
 ```
 
-## 3. Riverpod — Dogmas
+## 💧 State Management with Riverpod
 
-### 3.1 Usar `riverpod_generator` com tipagem forte
+Riverpod is the state management and Dependency Injection (DI) framework of choice. It is context-free, compile-safe, and highly testable.
+
+### 1. `AsyncValue` for Asynchronous Operations
+Never manually track `isLoading` or `hasError` booleans. Always use `AsyncValue` (via `FutureProvider` or `AsyncNotifierProvider`) and its `.when()` method for UI rendering.
 
 ```dart
-// ✅ CERTO — code generation, tipado, testável
+// CERTO: Using AsyncValue and Riverpod 2.0+ Notifiers
 @riverpod
-class AuthNotifier extends _$AuthNotifier {
+class ProductList extends _$ProductList {
   @override
-  FutureOr<AuthState> build() async {
-    final repo = ref.watch(authRepositoryProvider);
-    return repo.getCurrentUser();
-  }
-
-  Future<void> login(String email, String password) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () => ref.read(authRepositoryProvider).login(email, password),
-    );
+  Future<List<Product>> build() async {
+    return ref.read(productRepositoryProvider).getProducts();
   }
 }
 
-// ❌ ERRADO — StateNotifier manual, sem generator
-class AuthNotifier extends StateNotifier<AsyncValue<AuthState>> {
-  AuthNotifier() : super(const AsyncLoading()) {
-    _init();
-  }
-  void _init() { /* acoplado, difícil de testar */ }
-}
-```
-
-### 3.2 `ref.watch` vs `ref.read` — Regra de Ouro
-
-```dart
-// ✅ CERTO — watch no build (reativo), read em callbacks (imperativo)
-class UserScreen extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userAsync = ref.watch(userProvider);  // REATIVO — rebuilda quando muda
-
-    return ElevatedButton(
-      onPressed: () => ref.read(authProvider.notifier).logout(),  // IMPERATIVO
-      child: Text('Logout'),
-    );
-  }
-}
-
-// ❌ ERRADO — read no build (não reativo), watch em callback (warning)
-Widget build(BuildContext context, WidgetRef ref) {
-  final user = ref.read(userProvider);          // Nunca atualiza!
-  return ElevatedButton(
-    onPressed: () => ref.watch(authProvider),   // Cria subscription desnecessária
-    child: Text('Logout'),
-  );
-}
-```
-
-### 3.3 `ref.listen` para side-effects
-
-```dart
-// ✅ CERTO — listen para navegação, snackbar, etc
-@override
-Widget build(BuildContext context, WidgetRef ref) {
-  ref.listen(authProvider, (prev, next) {
-    next.whenOrNull(
-      error: (e, _) => ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('$e'))),
-    );
-  });
-  // ...
-}
-
-// ❌ ERRADO — side-effects dentro do build sem listen
-@override
-Widget build(BuildContext context, WidgetRef ref) {
-  final auth = ref.watch(authProvider);
-  if (auth.hasError) {
-    Navigator.pop(context);  // CRASHA por ser chamado durante build
-  }
-}
-```
-
-## 4. State — Sempre Imutável
-
-```dart
-// ✅ CERTO — freezed para imutabilidade + copyWith
-@freezed
-class UserState with _$UserState {
-  const factory UserState({
-    required String name,
-    required String email,
-    @Default(false) bool isLoading,
-    String? errorMessage,
-  }) = _UserState;
-}
-
-// ❌ ERRADO — mutação direta de objeto
-class UserState {
-  String name;  // Mutável — causa bugs de reatividade
-  String email;
-}
-```
-
-## 5. Widgets — Composição sobre Herança
-
-- Breakar widgets em **componentes pequenos** (`const` quando possível).
-- Nunca criar widgets > 100 linhas de `build()`.
-- Usar `const` constructors agressivamente para evitar rebuilds.
-
-```dart
-// ✅ CERTO — widget granular, const
-class UserAvatar extends StatelessWidget {
-  const UserAvatar({super.key, required this.url, this.radius = 24});
-  final String url;
-  final double radius;
-
-  @override
-  Widget build(BuildContext context) =>
-      CircleAvatar(radius: radius, backgroundImage: NetworkImage(url));
-}
-
-// ❌ ERRADO — avatar inline no build de uma tela gigante
-// Nunca embede UI complexa diretamente no build da Screen
-```
-
-## 6. Performance
-
-- **ListView.builder** para listas longas (nunca `Column` + `map`).
-- **const** em tudo que for estático.
-- `AutoDispose` nos providers (padrão com `riverpod_generator`).
-- **Evite `setState` desnecessário** — use Riverpod ao invés de StatefulWidget.
-- `RepaintBoundary` para isolar repaintings pesados.
-
-## 7. Testes
-
-```dart
-// Provider override para testes
-final container = ProviderContainer(
-  overrides: [
-    authRepositoryProvider.overrideWithValue(MockAuthRepository()),
-  ],
+// In Widget:
+final productState = ref.watch(productListProvider);
+return productState.when(
+  data: (products) => ProductListView(products: products),
+  loading: () => const CircularProgressIndicator(),
+  error: (error, stack) => ErrorWidget(error),
 );
-
-final authState = await container.read(authProvider.future);
-expect(authState, isA<AuthState>());
 ```
 
-## 8. Segurança
+### 2. Dependency Injection via Providers
+Use Providers to inject Repositories and Use Cases. This enables trivial mocking during tests.
 
-- Secrets via `flutter_dotenv` ou `--dart-define`. Nunca hardcode.
-- Validar todos os inputs de formulário no client E no server.
-- Sanitizar deep links e parâmetros de rota.
-- Certificate pinning em produção para APIs críticas.
+```dart
+// CERTO: DI Pattern with Riverpod
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  // Can be swapped out in testing via ProviderScope overrides
+  return FirebaseAuthRepository(ref.watch(firebaseAuthProvider));
+});
+
+final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
+  return LoginUseCase(ref.watch(authRepositoryProvider));
+});
+```
+
+### 3. Immutable State
+State managed by Riverpod MUST be strictly immutable. Use the `freezed` package to generate immutable data classes with `copyWith` and equality operators.
+
+```dart
+// CERTO: Freezed state class
+@freezed
+class AuthState with _$AuthState {
+  const factory AuthState.initial() = _Initial;
+  const factory AuthState.loading() = _Loading;
+  const factory AuthState.authenticated(User user) = _Authenticated;
+  const factory AuthState.error(String message) = _Error;
+}
+```
+
+## 🚨 Anti-Patterns & Constraints (DO NOT DO THIS)
+
+*   ❌ **NEVER** use `StatefulWidget` for complex business logic. Use `ConsumerWidget` + Riverpod Notifiers. Use `StatefulWidget` ONLY for transient UI state (like scroll controllers or animations).
+*   ❌ **NEVER** pass `BuildContext` into Repositories, Domain logic, or Riverpod Providers. State MUST be context-agnostic.
+*   ❌ **NEVER** perform direct HTTP calls inside a UI Widget.
+*   ❌ **NEVER** mutate state objects directly. Always emit a new instance (e.g., via `state = state.copyWith(...)`).
+*   ❌ **NEVER** nest features inside layers. (i.e., do not use `lib/presentation/auth`, `lib/domain/auth`. USE `lib/features/auth/presentation`, etc.).
+
+## 🧪 Testing Strategy
+*   **Unit Tests:** Test Use Cases and Repositories in isolation. Since the Domain layer is pure Dart, these tests execute instantaneously.
+*   **Provider Tests:** Create a test `ProviderContainer` to verify StateNotifier/AsyncNotifier behavior without a UI.
+*   **Widget Tests:** Override dependencies at the root:
+    ```dart
+    ProviderScope(
+      overrides: [
+        productRepositoryProvider.overrideWithValue(MockProductRepository()),
+      ],
+      child: MyApp(),
+    )
+    ```
+
+## 🧭 Routing
+Use `go_router` for declarative, URL-based routing. Integrate it with Riverpod so that authentication state changes automatically redirect the user (e.g., kicking them to the login screen if the token expires).
