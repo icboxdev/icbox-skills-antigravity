@@ -118,6 +118,30 @@ pub async fn require_auth(
 ## 5. Gerenciamento de Mutações com Zod e RHF
 No Frontend, **nunca confie que e-mails e senhas enviadas estão sanitizados**. Utilize React Hook Form associado a um Zod Schema Server-Side e Client-Side (`z.string().email()`, `z.string().min(8)`) para mitigar payload drops desnecessários e DDoS.
 
+## 6. Gotcha: CSRF Auto-Retry Must Be Discriminated
+
+Ao implementar retry automático de CSRF token em interceptors/middleware do frontend, NUNCA retente qualquer 403 automaticamente. Verifique o `error.code` da response:
+
+```typescript
+// ERRADO: retenta qualquer 403 → loop infinito em permission denial
+if (res.status === 403) {
+  await ensureCsrfToken();
+  res = await doFetch(); // ← LOOP se a 403 é de permissão (ex: missing tenant)
+}
+
+// CERTO: só retenta se o erro é CSRF_INVALID
+if (res.status === 403) {
+  const cloned = res.clone();
+  const body = await cloned.json().catch(() => ({}));
+  if (body?.error?.code === "CSRF_INVALID") {
+    await ensureCsrfToken();
+    res = await doFetch(); // ← retry apenas para CSRF stale
+  }
+}
+```
+
+**Regra:** 403 pode significar CSRF inválido, permissão negada, tenant não encontrado, ou role insuficiente. Discriminar pelo `error.code` antes de retentar.
+
 ## Regra: Scripts Temporários
 
 > Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.

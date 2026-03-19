@@ -283,6 +283,52 @@ let contacts = sqlx::query_as!(
 - ❌ NUNCA use `.unwrap()` em results de query — sempre `?` ou pattern match
 - ❌ NUNCA crie Pool sem max_connections
 
+## Gotcha: PostgreSQL Enum Type Casting
+
+Quando uma coluna é alterada de `VARCHAR` para um **enum PostgreSQL** (ex: `CREATE TYPE "ApiKeyScope" AS ENUM ('ingest','read','admin')`), INSERTs com texto plain falham:
+
+```
+ERROR: column "scope" is of type "ApiKeyScope" but expression is of type text
+```
+
+**Fix:** Cast explícito no SQL. Em Rust use raw string `r#"..."#` para escapar aspas duplas do identificador:
+
+```rust
+// ERRADO: text ligado a coluna enum
+sqlx::query("INSERT INTO api_keys (scope) VALUES ($1)")
+    .bind("ingest")
+
+// CERTO: cast explícito para o enum
+sqlx::query(r#"INSERT INTO api_keys (scope) VALUES ($1::"ApiKeyScope")"#)
+    .bind("ingest")
+```
+
+**Regra:** Ao encontrar erro `column X is of type Y but expression is of type text`, verifique se a coluna usa enum PostgreSQL e adicione cast `::\"EnumType\"`.
+
+## Gotcha: DEFAULT Perdido em ALTER TABLE
+
+Ao alterar tipo de coluna (`ALTER COLUMN ... TYPE ...`), PostgreSQL pode **dropar o DEFAULT**. Colunas como `id TEXT DEFAULT gen_random_uuid()::text` perdem o DEFAULT silenciosamente.
+
+```sql
+-- Antes: DEFAULT funciona
+id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text
+
+-- Após ALTER TYPE no scope (mesma tabela): DEFAULT do id é DROPADO!
+-- INSERT sem id: ERROR: null value in column "id" violates not-null constraint
+```
+
+**Fix:** (1) Re-set o DEFAULT após ALTER, ou (2) gere valores explicitamente no INSERT:
+
+```rust
+// CERTO: gerar id explicitamente no INSERT
+sqlx::query(
+    r#"INSERT INTO api_keys (id, tenant_slug, scope)
+       VALUES (gen_random_uuid()::text, $1, $2::"ApiKeyScope")"#
+)
+```
+
+**Regra:** Após qualquer ALTER TABLE, verificar se DEFAULTs de TODAS as colunas sobreviveram.
+
 ## Regra: Scripts Temporários
 
 > Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
