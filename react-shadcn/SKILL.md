@@ -229,6 +229,7 @@ const handleSubmit = (data: CreateContactDto) => {
 - ❌ NUNCA pule validação server-side — zero-trust
 - ❌ NUNCA remova aria-* dos primitivos Radix
 - ❌ NUNCA misture server state (API data) no Zustand
+- ❌ NUNCA use `alert()`, `confirm()` ou `prompt()` nativos do navegador — use `sonner` e `<ConfirmDialog>`
 
 ## Regra: Scripts Temporários
 

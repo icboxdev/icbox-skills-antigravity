@@ -120,6 +120,11 @@ O limite de largura de linha de Auto-Formatters como ESLint/Prettier (printWidth
 </h3>
 ```
 
+## 6. Toasts e Notificações (Zero Native Alerts)
+
+- ❌ NUNCA use `alert()`, `confirm()` ou `prompt()` nativos do navegador.
+- SEMPRE use o serviço de Toast in-app (ex: `vue-toastification` ou `useToast` do PrimeVue) para reportar erros ou sucesso na interface.
+
 ## Regra: Scripts Temporários
 
 > Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.

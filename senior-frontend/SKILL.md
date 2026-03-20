@@ -338,6 +338,7 @@ it("should set isLoading to true", () => {
 - SEMPRE use **husky + lint-staged** para pre-commit hooks.
 - SEMPRE documente decisões arquiteturais em `AI.md` ou ADRs.
 - SEMPRE mantenha hot reload < 500ms — se mais lento, investigue.
+- NUNCA use `alert()`, `confirm()` ou `prompt()` nativos do navegador — use bibliotecas de toast (Sonner, React Toastify, etc.) e modais da UI library.
 - NUNCA ignore warnings do linter — são bugs futuros.
 
 ## 4. Rendering Patterns — Comparison
