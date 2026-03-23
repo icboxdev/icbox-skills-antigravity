@@ -47,12 +47,37 @@ Sempre que analisar ou gerar componentes, force a validação de a11y:
 
 - Se notar que a aplicação usa Shadcn UI, valide se novos fluxos estão aproveitando componentes existentes (ex: usar `Sheet` para CRUD no lugar de construir um novo Drawer do zero).
 - Elimine estilos hardcoded magic numbers (ex: `w-[325px]`, `text-[#ff0000]`). Refatore substituindo por tokens do Tailwind (ex: `w-80`, `text-destructive`).
+- **NUNCA** use `window.alert()`, `window.confirm()` ou `window.prompt()` nativos do navegador. Esses diálogos quebram o design system, não suportam estilização/loading states, e são bloqueantes. Use os componentes do design system:
+
+| Caso de uso | Componente |
+|---|---|
+| Confirmação de exclusão | `DeleteConfirmDialog` / `AlertDialog` |
+| Alerta informativo | `AlertDialog` (shadcn/ui ou PrimeVue ConfirmDialog) |
+| Notificação efêmera | `toast()` (sonner) / `useToast()` (PrimeVue) |
+| Input do usuário | Formulário em `Dialog` / `Drawer` / `Sheet` |
+
+```tsx
+// CERTO: Dialog do design system com loading state
+const [deleteTarget, setDeleteTarget] = useState<Item | null>(null);
+<DeleteConfirmDialog
+  open={!!deleteTarget}
+  onOpenChange={(open) => !open && setDeleteTarget(null)}
+  title="Excluir item?"
+  description={`Excluir "${deleteTarget?.name}"? Ação irreversível.`}
+  onConfirm={() => deleteMutation.mutate(...)}
+  loading={deleteMutation.isPending}
+/>
+
+// ERRADO: Diálogo nativo do navegador
+if (confirm("Excluir item?")) { deleteMutation.mutate(...) }
+```
 
 ## 5. Workflow de Execução de Auditoria
 
-1. **Scoping:** Analise layouts base, navigations e forms. Encontrou código duplicado? Fatore em compenente compartilhado.
+1. **Scoping:** Analise layouts base, navigations e forms. Encontrou código duplicado? Fatore em componente compartilhado.
 2. **Type Check:** Procure por `any` usando busca por pattern e remova.
-3. **Refatoração:** Ao refatorar, divida grandes monolitos (>200 linhas) em sub-componentes puros.
+3. **Dialog Check:** Procure por `confirm(`, `alert(`, `prompt(` no código — substitua por componentes do design system.
+4. **Refatoração:** Ao refatorar, divida grandes monolitos (>200 linhas) em sub-componentes puros.
 
 ## Regra: Scripts Temporários
 
