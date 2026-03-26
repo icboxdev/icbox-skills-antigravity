@@ -87,24 +87,53 @@ export async function handleProjectInspector(args: Record<string, unknown>) {
 }
 ```
 
-### Registro no `index.ts` (CERTO ✅)
-```typescript
-import { projectInspectorTool, handleProjectInspector } from './tools/project_inspector.js';
+## 8. Catálogo AIOps Maestro Tools (v1.8.0 — 100% cobertura)
 
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-    return {
-        tools: [
-            projectInspectorTool, // <-- Adicionando aqui
-        ],
-    };
-});
+O MCP Core expõe **13 tools AIOps** que cobrem 100% da API REST do Maestro.
+Use este catálogo para saber QUAL tool usar em cada situação.
 
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-    switch (request.params.name) {
-        case "project_inspector":     // <-- Interceptando aqui
-            return await handleProjectInspector(request.params.arguments || {});
-        default:
-            throw new Error(`Tool not found: \${request.params.name}`);
-    }
-});
+### Projetos
+| Tool | Quando usar |
+|---|---|
+| `aiops_create_project` | Iniciar novo projeto (idempotente por nome) |
+| `aiops_list_projects` | Verificar projetos antes de criar um novo |
+| `aiops_get_project` | Estado atual + stages + progresso pelo ID |
+| `aiops_update_project` | Mudar status: ACTIVE → IN_PROGRESS → COMPLETED |
+| `aiops_get_project_activity` | Revisar histórico de ações antes de continuar |
+| `aiops_get_project_metrics` | Health check geral do Maestro |
+
+### Stages
+| Tool | Quando usar |
+|---|---|
+| `aiops_create_stage` | Criar etapa dentro de um projeto |
+| `aiops_get_stage` | Verificar status de uma stage pelo ID |
+| `aiops_update_stage` | Mover para IN_PROGRESS, corrigir campos |
+| `aiops_complete_stage` | ⭐ Marcar COMPLETED (idempotente + dispara handoff) |
+
+### Tarefas (Delegação entre Agentes)
+| Tool | Quando usar |
+|---|---|
+| `aiops_delegate_task` | Delegar trabalho para outro agente |
+| `aiops_consume_pending_tasks` | No início — verificar tarefas pendentes |
+| `aiops_get_task` | Verificar se tarefa delegada foi concluída |
+
+### Logs e Conhecimento
+| Tool | Quando usar |
+|---|---|
+| `aiops_send_agent_log` | Registrar TODA ação significativa |
+| `aiops_list_agent_logs` | Auditar ações com filtro por tipo |
+| `aiops_hive_mind_search` | Buscar soluções ANTES de pesquisar na web |
+| `aiops_create_knowledge` | Persistir aprendizado novo para todos os agentes |
+| `aiops_list_knowledge` | Verificar skills/workflows antes de criar novos |
+| `aiops_evaluate_agent` | Auto-avaliação LLM de performance |
+
+### Fluxo Obrigatório do Agente
+
+```
+1. aiops_consume_pending_tasks  → Checar tarefas pendentes
+2. aiops_hive_mind_search       → Buscar conhecimento
+3. aiops_send_agent_log         → Logar início
+4.  ... trabalho ...
+5. aiops_create_knowledge       → Persistir aprendizado (se novo)
+6. aiops_complete_stage         → Marcar etapa concluída
 ```
