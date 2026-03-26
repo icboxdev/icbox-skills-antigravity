@@ -87,9 +87,9 @@ export async function handleProjectInspector(args: Record<string, unknown>) {
 }
 ```
 
-## 8. Catálogo AIOps Maestro Tools (v1.8.0 — 100% cobertura)
+## 8. Catálogo AIOps Maestro Tools (v2.0.0 — 50 tools: AIOps + Infra + Realtime)
 
-O MCP Core expõe **13 tools AIOps** que cobrem 100% da API REST do Maestro.
+O MCP Core expõe **50 tools** em 6 domínios.
 Use este catálogo para saber QUAL tool usar em cada situação.
 
 ### Projetos
@@ -126,6 +126,15 @@ Use este catálogo para saber QUAL tool usar em cada situação.
 | `aiops_create_knowledge` | Persistir aprendizado novo para todos os agentes |
 | `aiops_list_knowledge` | Verificar skills/workflows antes de criar novos |
 | `aiops_evaluate_agent` | Auto-avaliação LLM de performance |
+
+### Sprint 4 — Infraestrutura & Real-Time (5 tools)
+| Tool | Quando usar |
+|---|---|
+| `redis_query` | Inspecionar/debugar cache Redis (GET, SET, KEYS, HGETALL, SCAN…) |
+| `service_health_check` | Verificar se portas/endpoints estão UP (TCP + HTTP em paralelo) |
+| `vault_get_secret` | Validar presença de variáveis de ambiente — Zero-Trust (nunca expõe valores) |
+| `notify_agent` | Enviar notificação estruturada a outro agente via EventBus do Maestro |
+| `ws_emit` | Emitir evento real-time para o dashboard WebSocket via Maestro |
 
 ### Fluxo Obrigatório do Agente
 
