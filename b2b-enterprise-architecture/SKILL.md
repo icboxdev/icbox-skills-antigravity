@@ -106,3 +106,8 @@ router.patch('/scim/v2/Users/:id', scimAuthMiddleware, async (req, res) => {
 1. **Design for Custom Domains:** Support `login.customer.com` by handling SNI routing and SSL certificate provisioning dynamically.
 2. **Rate Limiting by Tenant, not just IP:** Enterprise customers behind a NAT gateway will share IPs. Rate limit based on the `tenant_id` associated with their API Key or Session to prevent noisy neighbor problems.
 3. **RBAC is rarely enough:** Enterprises need ABAC (Attribute-Based Access Control) or custom role creation. Allow them to define policies like "Can view invoices IF invoice.region == 'EU'".
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

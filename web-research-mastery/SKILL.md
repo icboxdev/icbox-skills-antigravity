@@ -416,3 +416,8 @@ Antes de considerar a pesquisa concluída, validar:
 - [ ] Skills e KIs consultados ANTES da pesquisa web?
 - [ ] Context7/MCP consultados ANTES de search_web?
 - [ ] Se não encontrou em 5 tentativas, reformulou abordagem?
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

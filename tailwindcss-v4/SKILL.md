@@ -260,3 +260,8 @@ module.exports = {
 - **NUNCA** assumir que classes v3 funcionam identicamente em v4 (ring, border, divide mudaram defaults).
 - **SEMPRE** rodar `npx @tailwindcss/upgrade` antes de migrar manualmente.
 - **SEMPRE** testar visualmente após migração — defaults de ring/border/divide mudaram.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -68,3 +68,8 @@ const users = await db.selectFrom('person')
 ### Kysely vs Drizzle (Regra de Escolha)
 - **Use DRIZZLE** se a sua infra quer o schema guiado pelo Código (Typescript DDL Migration first) e você quer Query Relacional Mágica baseada em objeto v2.
 - **Use KYSELY** se o Banco for Guiado por Migrações SQL ou de DBA, e você quiser a interface SQL absoluta de alto escalão com o Typescript inferindo os tipos direto do DB.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

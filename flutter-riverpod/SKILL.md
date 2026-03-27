@@ -116,3 +116,8 @@ class AuthState with _$AuthState {
 
 ## 🧭 Routing
 Use `go_router` for declarative, URL-based routing. Integrate it with Riverpod so that authentication state changes automatically redirect the user (e.g., kicking them to the login screen if the token expires).
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

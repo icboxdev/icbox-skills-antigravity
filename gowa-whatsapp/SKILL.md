@@ -122,3 +122,8 @@ Tools disponíveis: `whatsapp_send_text`, `whatsapp_list_chats`, `whatsapp_conne
 | Ecossistema  | Menor          | Maior (Typebot, etc) |
 
 Usar GOWA quando: baixo consumo de memória, MCP, HMAC nativo. Usar Evolution quando: ecossistema Node.js maduro.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

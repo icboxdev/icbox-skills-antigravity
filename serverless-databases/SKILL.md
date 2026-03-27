@@ -77,3 +77,8 @@ Ao invés de rodar `npx prisma migrate deploy` contra o DB de produção:
 2. **Conecte o App Local**: Conecte na branch `feat-user-profile`.
 3. **Aplique Migrations na Branch**: Altere o schema, rode `npx prisma db push` contra a branch.
 4. **Deploy Request**: Abra um Pscale Deploy Request ou realize o schema diff no Neon. O provedor fará o merge do schema com ZERO downtime.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

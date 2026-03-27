@@ -711,3 +711,8 @@ Antes de qualquer feature em analytics ir para produção:
 - [ ] **Empty/Error/Loading states** — todo chart tem os três estados obrigatórios.
 - [ ] **Accessibility** — figcaption + tabela alternativa em todos os charts.
 - [ ] **Audit log** — quem acessou quais dados, quando.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

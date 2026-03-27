@@ -396,3 +396,8 @@ const receivables = await db.query.invoices.findMany({
 | NF-e | Focus NFe / Enotas API | Emissão automatizada |
 | Filas | BullMQ / RabbitMQ | Processamento assíncrono de boletos/NF-e |
 | Frontend | React + Shadcn / Vue + PrimeVue | Dashboards, tabelas, formulários |
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

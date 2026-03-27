@@ -58,3 +58,8 @@ function SpinningBox() {
 *   ❌ **NEVER** place multiple `<Canvas>` elements on the same DOM page. Each spawns a heavy isolated WebGL context. Use a single `<Canvas>` fixed to the background and render R3F `View` components tracked to HTML DOM elements (using `@react-three/drei`'s `View`).
 *   ❌ **NEVER** use `MeshStandardMaterial` arbitrarily if you don't need physically based lighting. If you just need a flat color, use `MeshBasicMaterial`. It skips lighting math entirely.
 *   ❌ **NEVER** use large, uncompressed textures. Always compress UI textures to `.webp` or `.ktx2` (Basis Universal) before loading them into WebGL to save GPU VRAM.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

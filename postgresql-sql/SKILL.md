@@ -139,3 +139,8 @@ SELECT * FROM leads
 - ❌ Funções em WHERE (`WHERE LOWER(email) = ...`) — criar functional index
 - ❌ Transactions longas (> 5s) — dividir em batches
 - ❌ `LIKE '%termo%'` — usar `pg_trgm` + GIN index ou full-text search
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

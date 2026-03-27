@@ -68,12 +68,15 @@ Limites de uso são reais no Antigravity devido à quantidade maciça de "thinki
 2. **"Concluir Tarefas" (End Task Cleanly)**: Ao final de um workflow da skill, o Agente deve confirmar a finalização explícita via interface (Notificar o usuário ou encerrar boundaries) para que as instruções abandonem a _Short-Term Memory_ fantasma.
 3. **Pequenos Deltas (Micro-commits)**: Nas skills, sempre presuma e comande o agente a fazer edições focadas em blocos, nunca reescritas totais de arquivos de 2000 linhas, que geram lentidão e esgotamento.
 
-## 6. Integração Multimodal e Execução de Scripts
+## 6. Automação Nível 2 (Metodologia SSJ) e Execução de Scripts
 
-Skills avançadas frequentemente acompanham subpastas de scripts `.sh`, `.py` ou `.js`.
+Para erradicar a lentidão e alucinações da digitação token-a-token, o Antigravity utiliza a metodologia **SSJ (Escalonamento Nível 2)**. 
+TODA nova skill (ou durante atualizações de skills antigas) DEVE contemplar o design de geradores CLI em uma subpasta `scripts/`.
 
-- Se a skill exige execução de scripts locais para formatar ou fazer scaffold, escreva na documentação que o agente **SEMPRE DEVE RODAR `script --help` PRIMEIRO** antes de arriscar um autocomplete suicida nos argumentos do CLI.
-- Comande a validação minuciosa dos retornos de terminal (`stderr` vs `stdout`) antes do Agente assumir sucesso ou tentar auto-corrigir em loops infinitos.
+- **Obrigatoriedade de Scaffolds:** Se a skill define padrões para arquivos repetitivos (ex: Controllers, Repositórios, Pages, Configs padrão), você **DEVE** arquitetar e criar scripts geradores (`.sh`, `.ts`, `.py`, `.rs`) na respectiva pasta `scripts/` dessa skill.
+- **Intenção Determinística:** Documente fortemente no `SKILL.md` que o Agente deve acionar essas ferramentas utilitárias via `run_command` em vez de fabricar boilerplates manuais usando `write_to_file`.
+- Se a skill exige execução de scripts complexos ou geradores com múltiplas flags, instrua o agente a **SEMPRE RODAR `script --help` PRIMEIRO** antes de chutar argumentos às cegas no shell.
+- Comande a validação minuciosa dos retornos de terminal (`stderr` vs `stdout`) antes do Agente assumir sucesso ou iterar em loop infinito.
 
 ## 7. A Voz da Diretriz (Zero-Trust Security)
 
@@ -83,6 +86,24 @@ A redação do `SKILL.md` (Markdown) tem que ser taxativa, blindando o Agente co
 - "Nunca faça push ao repositório se a flag `strict: true` falhar no build."
 - "Sanitize todos os inputs providos do payload web. Assuma sempre invasão maliciosa."
 
+## 8. Regra Inviolável: Scripts Temporários FORA do Projeto
+
+Scripts auxiliares, utilitários de automação, ou qualquer arquivo temporário gerado pelo Agente para acelerar uma tarefa **NUNCA** devem ser criados dentro do diretório do projeto do usuário.
+
+- **SEMPRE** criar scripts temporários em `/tmp/` (ex: `/tmp/format_data.py`, `/tmp/migrate_helper.sh`).
+- **SEMPRE** remover o script após a execução com sucesso.
+- **NUNCA** criar arquivos `.py`, `.sh`, `.js` ou qualquer outro auxiliar dentro da árvore do projeto — isso polui o repositório, pode ser commitado acidentalmente, e quebra a integridade do código.
+
+```
+# CERTO
+/tmp/seed_helper.py  →  executa  →  remove
+
+# ERRADO
+/home/user/meu-projeto/seed_helper.py  ←  PROIBIDO
+```
+
+Toda skill criada pelo Antigravity **DEVE** herdar esta regra implicitamente. Se a skill gera scripts auxiliares, documente que o destino é `/tmp/`.
+
 ## Resumo Operacional para Criação
 
 Sempre que acionado para "criar uma nova skill" para o Antigravity:
@@ -90,5 +111,7 @@ Sempre que acionado para "criar uma nova skill" para o Antigravity:
 1. Extraia e defina a **Lógica Atômica** (apenas 1 propósito).
 2. Escreva o **YAML Semântico** com verbos fortes e tecnologias na descrição.
 3. Liste os **Dogmas Arquiteturais Sênior** na voz imperativa (O que nunca fazer / O que sempre fazer).
-4. Prove através de **Few-Shot Snippets** (exemplos do certo vs errado).
-5. Posicione o arquivo em `.../.gemini/antigravity/skills/<escopo>/SKILL.md` ou `.agent/skills/<escopo>/SKILL.md`.
+4. **Aplique o Nível 2 (SSJ):** Crie a subpasta `scripts/` da skill imediatamente, populando-a com os geradores CLI (Bash/Node/Rust) desenhados para zerar a geração manual do boilerplate daquela stack.
+5. Prove através de **Few-Shot Snippets** (exemplos do certo vs errado).
+6. Posicione o arquivo em `.../.gemini/antigravity/skills/<escopo>/SKILL.md` ou `.agent/skills/<escopo>/SKILL.md`.
+7. **Garanta** que a regra de `/tmp/` para scripts temporários esteja mencionada ou implícita nos dogmas.

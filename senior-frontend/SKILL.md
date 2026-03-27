@@ -37,6 +37,7 @@ Se o código compila mas a arquitetura não escala, ele falhou. Se a empresa nã
 - NUNCA crie componentes com mais de **150 linhas** — decomponha.
 - NUNCA misture lógica de negócio com lógica de UI no mesmo componente.
 - NUNCA importe diretamente de caminhos relativos profundos — use path aliases (`@/`).
+- NUNCA entregue views estáticas, placeholders ou "empty states" temporários se a API real do backend já estiver desenvolvida. A integração do fetch data na mesma entrega é inegociável.
 
 ```
 # CERTO: Feature-based structure (Vertical Slices)
@@ -338,6 +339,7 @@ it("should set isLoading to true", () => {
 - SEMPRE use **husky + lint-staged** para pre-commit hooks.
 - SEMPRE documente decisões arquiteturais em `AI.md` ou ADRs.
 - SEMPRE mantenha hot reload < 500ms — se mais lento, investigue.
+- NUNCA use `alert()`, `confirm()` ou `prompt()` nativos do navegador — use bibliotecas de toast (Sonner, React Toastify, etc.) e modais da UI library.
 - NUNCA ignore warnings do linter — são bugs futuros.
 
 ## 4. Rendering Patterns — Comparison
@@ -380,3 +382,8 @@ it("should set isLoading to true", () => {
 | **UI Library**    | PrimeVue / shadcn/ui        | Radix, Headless UI  |
 | **Monorepo**      | Turborepo / Nx              | pnpm workspaces     |
 | **Analytics**     | Sentry + Web Vitals         | Datadog RUM         |
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

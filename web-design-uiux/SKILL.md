@@ -475,3 +475,8 @@ tokens/
 - [ ] **Performance** — WebP/AVIF, lazy load, dimensions explícitas, CLS < 0.1
 - [ ] **Animações** — GPU-only, reduced-motion, duração 150-500ms
 - [ ] **Grid/Layout** — CSS Grid + Flexbox, container queries, sem float
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

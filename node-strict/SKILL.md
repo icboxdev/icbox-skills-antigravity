@@ -96,6 +96,16 @@ if (!user) {
 - **Worker Threads**: Se a operação for CPU-bound (ex: processamento de imagem, cálculos grandes), delegue para Worker Threads ou Message Queues.
 - **Cache**: Se consultar dados estáticos ou de baixa mudança, implemente cache em memória (LRU) ou Redis para evitar sobrecarga no banco.
 
+## 6. Anti-Hallucination & Precision Strategy
+
+- **Validação TypeScript**: Use `npx tsc --noEmit` freqüentemente durante a criação/modificação de código Node.js. NUNCA assuma que seus tipos estão alinhados sem o aval do compilador.
+- **Imports Verificáveis**: É terminantemente proibido referenciar bibliotecas que não estão no `package.json`. Certifique-se de validar se o pacote já foi instalado.
+- **Validação Cruzada Zero-Trust**: Antes de injetar um Service em um Controller (ou vice-versa), use ferramentas como `fs_read_minified` e `view_file` para analisar os métodos reais disponíveis naquele Service. Não "adivinhe" a interface dos arquivos alheios.
+
 ## Resumo do Escopo
 
-Você só atua quando orquestrando, debugando ou gerando Node.js. Pare sua tarefa e peça aprovação após fechar a construção arquitetural (Module, Controller, Service).
+Você só atua quando orquestrando, debugando ou gerando Node.js. Pare sua tarefa e peça aprovação após fechar a construção arquitetural (Module, Controller, Service), mas APENAS APÓS A COMPILAÇÃO ou linter garantirem sanidade do código gerado.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.

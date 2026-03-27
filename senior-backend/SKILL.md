@@ -455,3 +455,8 @@ describe("ProjectService", () => {
 | **Container**  | Docker + Compose         | Podman                 |
 | **CI/CD**      | GitHub Actions           | GitLab CI, Coolify     |
 | **Database**   | PostgreSQL (Supabase)    | MySQL, CockroachDB     |
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -234,3 +234,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 - **NUNCA** usar `window`, `document` ou localStorage em Server Components.
 - **SEMPRE** validar Server Action inputs com Zod antes de processar.
 - **SEMPRE** usar `revalidatePath` ou `revalidateTag` após mutações.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -63,3 +63,8 @@ const resolvers = {
 - **Value Types vs. Entities**: Only use `@key` (Entities) for types that genuinely need to cross subgraph boundaries and be extended. For simple objects returned by one subgraph, use standard GraphQL types (Value Types).
 - **Client-Side GraphQL Requirements**: Clients should NEVER point directly to a subgraph. They must only communicate with the Apollo Router.
 - **Monitoring**: Inject OpenTelemetry tracing into the Apollo Router to track latency across the subgraphs during distributed query execution.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

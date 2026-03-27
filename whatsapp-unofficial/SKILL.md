@@ -163,3 +163,8 @@ for (const jid of contacts) {
 4. **Conta dedicada** — nunca usar conta pessoal
 5. **Warm-up** — usar o número manualmente por dias antes de automatizar
 6. **Responder mensagens** — contas que só enviam são flagged
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

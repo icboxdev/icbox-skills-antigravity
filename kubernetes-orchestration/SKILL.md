@@ -84,3 +84,8 @@ spec:
 ### Helm vs Kustomize (Onde usar)
 - **Use Helm:** Para empacotar Vendor Apps brutos (Bancos, Sistemas de Monitoramento) que exigem condicionais lógicas maciças (If/Else no YAML).
 - **Use Kustomize:** No Repositório GitOps para orquestrar *suas* microserviços, permitindo overrides baseados em diretório (base -> dev/prod) limpos, sem reinventar a roda com milhares de chaves complexas num arquivo `values.yaml` inchado.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

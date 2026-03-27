@@ -75,3 +75,8 @@ int affectedRows = await _context.Tokens
 ### Problemas de Fetch N+1 e Cloud Latency Penalty
 
 Nunca utilize a clássica e perigosa função de **Lazy Loading do Entity Framework** no ecossistema de nuvem asincrono (Virtual Proxy navigation properties). Se habilitar `"UseLazyLoadingProxies"`, acessos dentro do mapeamento de DTO causarão queries "Síncronas" invisíveis bloqueando o Threapool principal e empilhando latência de nuvem "Ida e Volta". OBRIGATÓRIO utilizar `Include(...)` ou projecão pura com `.Select()`.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

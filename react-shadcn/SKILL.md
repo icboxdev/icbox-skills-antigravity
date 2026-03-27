@@ -188,12 +188,21 @@ const handleSubmit = (data: CreateContactDto) => {
 }
 ```
 
-## 7. Acessibilidade Imutável (a11y)
+## 7. Acessibilidade e UX (a11y & Autofocus)
 
 - NUNCA remova `aria-*` ou props do Radix UI.
 - Todo input DEVE ter `<Label>` associado.
 - Todo botão de ação destrutiva DEVE ter `<ConfirmDialog>` com descrição.
 - Foco gerenciado em modals/drawers (trap focus).
+- **Autofocus Agressivo em Drawers/Dialogs (Password Managers)**: Para evitar que gerenciadores de senha (LastPass, 1Password, Chrome Autofill) disparem popups intrusivos cobrindo a UI assim que um Modal/Drawer abrir, você DEVE **SEMPRE interceptar e anular o autofocus padrão do Radix** nos componentes base (`components/ui/sheet.tsx` e `components/ui/dialog.tsx`):
+  ```tsx
+  <SheetPrimitive.Content
+    onOpenAutoFocus={(e) => {
+      e.preventDefault() // Previne o foco automático e o popup agressivo do navegador
+      onOpenAutoFocus?.(e)
+    }}
+  >
+  ```
 
 ## 8. Design Tokens & Tema
 
@@ -212,6 +221,15 @@ const handleSubmit = (data: CreateContactDto) => {
 --duration-slow: 300ms;     /* drawer slide */
 ```
 
+## 9. Compiler-Driven Development e UX (Anti-Hallucination)
+
+Para erradicar alucinações e entregar interfaces de alta fidelidade:
+- **Validar antes de concluir (Compiler-Driven)**: Antes de finalizar qualquer tarefa, você DEVE rodar o compilador local (`npx tsc --noEmit` ou comando de build equivalente) para garantir zero erros de tipagem. É PROIBIDO marcar a tarefa como concluída se o TypeScript estiver falhando.
+- **Zero-Trust em APIs e Componentes**: NUNCA "adivinhe" o nome de um componente Shadcn ou DTO de API. Utilize ferramentas de disco (`view_file`, `ls`) para ler o código-fonte antes de usá-lo.
+- **Completude de UX e Inputs Relacionais**: 
+  - NUNCA entregue mockups ou placeholders se o endpoint da API já estiver construído.
+  - NUNCA use um `<Input>` texto comum para preencher IDs relacionais (ex: `tenant_id`, `company_id`). OBRIGATÓRIO usar `<Select>`, `<DropdownMenu>` ou `<Combobox>` interativos alimentados por dados reais via TanStack Query.
+
 ## Resumo Operacional
 
 1. Trabalhe em arquivos modulares (< 200 linhas), nunca monolíticos.
@@ -229,3 +247,11 @@ const handleSubmit = (data: CreateContactDto) => {
 - ❌ NUNCA pule validação server-side — zero-trust
 - ❌ NUNCA remova aria-* dos primitivos Radix
 - ❌ NUNCA misture server state (API data) no Zustand
+- ❌ NUNCA use `alert()`, `confirm()` ou `prompt()` nativos do navegador — use `sonner` e `<ConfirmDialog>`
+- ❌ NUNCA finalize tarefas sem compilar sucesso (`tsc --noEmit`).
+- ❌ NUNCA use inputs de texto livre para IDs de Foreign Keys.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

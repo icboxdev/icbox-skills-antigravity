@@ -69,3 +69,8 @@ export function AnimatedSection() {
 
 *   **ScrollTrigger.refresh():** If your Next.js application dynamically loads images (`next/image` lazy loading) or fetches data that changes the DOM height drastically *after* the initial render, you MUST call `ScrollTrigger.refresh()` (usually in a `ResizeObserver` or image `onLoad`) so GSAP recalculates the trigger points.
 *   **Timeline Orchestration:** Avoid chaining hundreds of independent `gsap.to()` calls. Group complex choreography into `gsap.timeline({ scrollTrigger: ... })` to control playback, reversal, and scrubbing uniformly.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

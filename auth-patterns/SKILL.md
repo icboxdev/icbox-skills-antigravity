@@ -338,3 +338,8 @@ async fn check_lockout(db: &PgPool, user_id: Uuid) -> Result<(), AppError> {
 - [ ] **Logout completo** — invalidar session, limpar cookie, revogar tokens.
 - [ ] **Tenant isolation** — TODA query com WHERE tenant_id, sem exceção.
 - [ ] **Audit log** — login, logout, failed attempt, role change, MFA toggle.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

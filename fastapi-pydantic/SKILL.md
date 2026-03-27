@@ -205,3 +205,8 @@ raise AppException(404, "Usuário não encontrado", "USER_NOT_FOUND")
 - Secrets **sempre** via `BaseSettings` + `.env`. Nunca hardcode.
 - Helmet-like headers via middleware (HSTS, X-Content-Type-Options).
 - Validação de uploads: checar MIME type, tamanho máximo, extensões permitidas.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

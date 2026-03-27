@@ -62,3 +62,8 @@ public class SecurityConfig {
 *   ❌ **NEVER** use `ThreadLocal` indiscriminately when running under Virtual Threads, especially if caching large objects, as thousands of virtual threads will multiply that memory footprint rapidly. Use Java 21's `ScopedValue` API for passing context securely.
 *   ❌ **NEVER** wrap database transactions (`@Transactional`) around long-running network calls (like an external HTTP request). This starves the HikariCP connection pool. Keep transactions tight and DB-only.
 *   ❌ **NEVER** pin a Virtual Thread. "Pinning" happens if you execute prolonged blocking I/O operations inside `synchronized` blocks or native JNI methods. Replace `synchronized` blocks with `ReentrantLock` when upgrading existing codebases to Virtual Threads.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

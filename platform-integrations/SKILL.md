@@ -1239,3 +1239,8 @@ backend/ (Rust — Axum)
 - [ ] **Rate limiting** — respeitar limites do provedor (ex: ReceitaWS 3/min free).
 - [ ] **Webhook outbound** — HMAC signing, retry com backoff progressivo (1s→10m).
 - [ ] **Zero secrets no código** — tudo via variáveis de ambiente ou secret manager.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

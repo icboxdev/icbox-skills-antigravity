@@ -54,3 +54,8 @@ new ModuleFederationPlugin({
 *   ❌ **NEVER** allow cyclical dependencies between MFEs (App A depends on App B, which depends on App A). This guarantees distributed deadlocks.
 *   ❌ **NEVER** build "Micro-Frontends" if the team is small (e.g., 3 developers). The overhead of CI/CD, versioning, and Module Federation tooling will destroy productivity. MFE is an organizational scaling pattern, not just a technical one.
 *   ❌ **NEVER** fetch `remoteEntry.js` files statically if environments change. Use MF2's dynamic manifest discovery (`manifest.json`) or a promise-based dynamic remote configuration for multi-tenant SaaS.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

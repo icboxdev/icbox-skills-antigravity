@@ -66,3 +66,8 @@ const heavyReport = await readerPool.query("SELECT * FROM orders JOIN audit... G
 2. **AWS RDS Proxy:** Associado ao Cluster, conectado à VPC.
 3. **Application:** ECS Fargate ou Lambdas consumindo o Endpoint do RDS Proxy.
 4. **Disaster Recovery (Opcional):** Aurora Global Database para replicar storage para outra região da AWS com latência de armazenamento < 1s.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

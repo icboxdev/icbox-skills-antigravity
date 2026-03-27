@@ -85,3 +85,8 @@ async def get_users_and_posts(db: AsyncSession = Depends(get_db)):
     # Perfeitamente carregado, 100% thread-safe no event loop quando Pydantic formatá-los.
     return users
 ```
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -69,3 +69,8 @@ description: Deploy da aplicação via Coolify
 2. Atualize o `ROADMAP.md` movendo as tarefas para concluídas usando a ferramenta `multi_replace_file_content`.
 3. Notifique o usuário sobre o envio iminente e, se aprovado, rode `git push origin main`.
 ```
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

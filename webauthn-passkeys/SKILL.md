@@ -84,3 +84,8 @@ function verifyLogin(body) {
 - **Multiple Credentials**: Prompt users to register multiple devices (e.g., Phone + Laptop) to avoid account lockout.
 - **Attestation vs Assertion**: Use "none" for attestation in consumer apps to maximize privacy and registration success. Use "direct" or "enterprise" attestation ONLY when strict hardware compliance is required by security policy.
 - **User Presence vs User Verification**: `userVerification: 'preferred'` or `'required'` ensures biometrics/PIN is used, conferring MFA properties in a single step.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -60,3 +60,8 @@ Sempre que possível, o `tenant_id` ou `slug` deve fazer parte da URL persistent
 
 SaaS views são pesadas. Entidades grandes (Analytics, Mapas, Dashboard Builders) NÃO DEVEM fazer parte do bundle inicial.
 - **Sempre utilize** `React.lazy()` ou `next/dynamic` para páginas pesadas ou modais ocultos por padrão.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

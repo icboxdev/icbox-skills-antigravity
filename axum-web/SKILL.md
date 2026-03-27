@@ -655,6 +655,43 @@ mod tests {
 - ❌ NUNCA ignore graceful shutdown — containers precisam SIGTERM handling.
 - ❌ NUNCA bloqueie o runtime — use `tokio::task::spawn_blocking` para CPU-bound work.
 
+## Gotcha: Extractor ↔ Middleware Coupling
+
+Quando um middleware injeta `Extension<T>` (ex: `TenantContext`), remover esse middleware de um grupo de rotas **QUEBRA todos os handlers** que usam o extractor correspondente. O extractor retorna 403/500 porque a Extension não foi inserida no request.
+
+```rust
+// ERRADO: handler usa Tenant extractor mas a rota NÃO tem tenant_isolation middleware
+async fn me(Auth(user): Auth, Tenant(ctx): Tenant) -> impl IntoResponse { ... }
+// ↑ CRASH: Tenant extractor busca Extension<TenantContext> que NÃO existe
+
+// CERTO: rotas sem tenant_isolation middleware NÃO usam Tenant extractor
+async fn me(Auth(user): Auth) -> impl IntoResponse { ... }
+```
+
+**Regra:** Ao remover middleware de um grupo de rotas, audite TODOS os handlers desse grupo para eliminar extractors que dependem da Extension injetada pelo middleware removido.
+
+## Gotcha: Error Handler em APIs M2M
+
+Em comunicação M2M (service-to-service), NUNCA masque o erro real com `"Internal server error"` genérico. O serviço chamador precisa da mensagem real para diagnóstico.
+
+```rust
+// ERRADO: erro mascarado impossibilita debugging pelo serviço chamador
+Self::Database(e) => {
+    (StatusCode::INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Internal server error".to_string())
+}
+
+// CERTO: expor erro real para M2M (proteger apenas em respostas para end-users)
+Self::Database(e) => {
+    tracing::error!("Database error: {e}");
+    (StatusCode::INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", format!("Database error: {e}"))
+}
+```
+
 ## Resumo do Escopo
 
 Você atua quando gerando, validando ou debugando **Axum web APIs** — incluindo routing, handlers, extractors, middleware, state management, error handling, WebSocket, SSE, e multi-tenancy. Sempre complemente com a skill `rust-lang` para patterns de ownership, async Tokio, e SQLx.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

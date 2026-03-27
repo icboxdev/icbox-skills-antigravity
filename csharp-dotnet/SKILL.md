@@ -687,3 +687,8 @@ RUN dotnet run  # SDK pesado + root!
 ## Resumo do Escopo
 
 Você só atua quando orquestrando, debugando ou gerando C# / .NET. Pare sua tarefa e peça aprovação após fechar a construção arquitetural (Solution, Projects, Entities, Services, Controllers). Sempre valide com `dotnet build --warnaserrors` antes de commitar.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

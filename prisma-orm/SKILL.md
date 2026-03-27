@@ -238,3 +238,8 @@ await prisma.role.create({ data: { name: "admin" } });
 - Usar `@db.VarChar(255)` para limitar tamanho de campos string.
 - `onDelete: Cascade` explícito em relações (evitar orphans).
 - Em multi-tenant: **SEMPRE** filtrar por `tenantId` como primeira cláusula `where`.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

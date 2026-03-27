@@ -104,3 +104,8 @@ async function handleOrderCreatedEvent(event: OrderCreatedEvent) {
 ## 3. Recommended Tech Stack Patterns
 1. **Brokers:** Kafka (high throughput, replayable logs), RabbitMQ (advanced routing, DLQs built-in), SQS+SNS (AWS serverless standard). Redis PubSub is acceptable ONLY for transient real-time state (WebSockets), never for durable business events.
 2. **Event Schemas:** Use strict schema definitions (JSON Schema, Avro, Protobuf) for events. An event is a public API contract; you cannot break it without versioning.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

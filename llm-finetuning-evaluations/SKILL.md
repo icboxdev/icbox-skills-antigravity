@@ -32,3 +32,8 @@ This skill defines the architectural dogmas and absolute best practices for eval
 *   **Dogma:** Changing a system prompt or a RAG chunking strategy can silently break regressions across hundreds of edge cases.
 *   **Rule:** Treat prompts as code. Prompt versions MUST be tracked in Git.
 *   **Rule:** On Pull Request, run an automated CI pipeline over a "Golden Dataset" of ~50-100 historical queries. Use a stronger model (e.g., GPT-4o or Claude 3.5 Sonnet) as the "Judge" to score the outputs of the PR branch against the Golden Responses using a strict grading rubric. Block the PR if the score drops.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

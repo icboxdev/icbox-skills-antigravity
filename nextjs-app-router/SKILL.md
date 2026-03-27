@@ -178,3 +178,8 @@ revalidateTag("users");
 - Middleware para auth guards (`middleware.ts` na raiz).
 - Rate limiting em Route Handlers via headers/IP.
 - CSP headers via `next.config.js`.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

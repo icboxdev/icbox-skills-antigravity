@@ -202,3 +202,8 @@ services:
 - [ ] Secrets via `.env` (não commitado) ou Docker secrets
 - [ ] `depends_on` com `condition: service_healthy`
 - [ ] Logging driver configurado (json-file com max-size)
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

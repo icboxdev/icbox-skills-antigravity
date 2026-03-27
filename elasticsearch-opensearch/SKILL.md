@@ -43,3 +43,8 @@ Elasticsearch and OpenSearch are now first-class Vector Databases.
 *   ❌ **NEVER** use `wildcard` queries on `text` fields if performance matters. Use NGrams at index time instead.
 *   ❌ **NEVER** run heavy aggregations on high-cardinality `text` fields. Ensure fields targeted by `terms` aggregations are mapped as `keyword`.
 *   ❌ **NEVER** ignore the cluster health. If it drops to `yellow` (missing replicas) or `red` (missing primary shards), investigate immediately before writing more data.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

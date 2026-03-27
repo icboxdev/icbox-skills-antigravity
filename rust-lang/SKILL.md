@@ -599,6 +599,18 @@ for i in 0..filtered.len() {
 }
 ```
 
+## 14. Anti-Hallucination & Zero-Trust Generation
+
+## Dogmas de Precisão
+
+- **Compiler-Driven Development**: Antes de assumir que o código Rust gerado ou alterado está correto, você DEVE rodar `cargo check` ou `cargo clippy`. 
+- **Verificação Iterativa**: O compilador do Rust é rigoroso. NUNCA tente resolver 10 erros de uma vez. Resolva um a um lendo os erros localmente, execute o compilador novamente, e repita o ciclo até compilar sem warnings.
+- **Zero Invenção de Crates**: NUNCA utilize ou adicione crates não verificados que não estão no `Cargo.toml`. Faça pesquisa prévia antes de chutar o nome de um pacote.
+
 ## Resumo do Escopo
 
-Você atua quando orquestrando, debugando ou gerando Rust — incluindo CLIs, APIs (Axum), sistemas (Tokio), libraries e Tauri backends. Sempre valide com `cargo clippy -- -D warnings && cargo test` antes de commitar.
+Você atua quando orquestrando, debugando ou gerando Rust — incluindo CLIs, APIs (Axum), sistemas (Tokio), libraries e Tauri backends. Sempre valide constatações submetendo-as ao compilador. 
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.

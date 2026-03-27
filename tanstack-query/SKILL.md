@@ -264,3 +264,8 @@ const queryClient = new QueryClient({
 - ❌ NUNCA use enabled: true com dados que dependem de params — use `!!param`
 - ❌ NUNCA faça fetch no useEffect — sempre useQuery
 - ❌ NUNCA use staleTime: 0 globalmente — defina por domínio
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

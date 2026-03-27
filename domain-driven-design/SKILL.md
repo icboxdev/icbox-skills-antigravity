@@ -108,3 +108,8 @@ src/
 2.  **Define Bounded Contexts:** Group related concepts. Define explicit contracts (APIs or Events) between contexts.
 3.  **Model the Domain First:** Write the `domain/` folder without touching a database schema or web framework. Use Unit Tests to validate the rules.
 4.  **Implement Adapters:** Build the Infrastructure layer to persist the Domain objects and the Application layer to orchestrate the use cases.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

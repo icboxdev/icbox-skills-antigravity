@@ -265,3 +265,8 @@ Podcast                   Product tours                Onboarding assistido
 - [ ] **Budget alocado** — CPA máximo definido, ROAS mínimo
 - [ ] **Criativos variados** — mínimo 3 por segmento
 - [ ] **Métricas de sucesso** — KPIs definidos antes do lançamento
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

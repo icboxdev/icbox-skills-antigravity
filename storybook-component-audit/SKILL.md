@@ -224,3 +224,8 @@ export default preview;
 - **NUNCA** skippar a11y addon — acessibilidade é testada em cada story.
 - **SEMPRE** testar em dark e light mode.
 - **SEMPRE** incluir stories para estados: default, loading, empty, error, disabled.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

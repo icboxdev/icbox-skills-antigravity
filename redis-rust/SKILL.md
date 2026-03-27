@@ -228,3 +228,8 @@ if !check_rate_limit(&state.redis, &key, plan.max_api_calls, 60).await? {
 - ❌ NUNCA use KEYS em produção com datasets grandes — use SCAN
 - ❌ NUNCA crie conexão Redis por request — use pool
 - ❌ NUNCA esqueça TTL em chaves de cache — Redis não é storage permanente
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

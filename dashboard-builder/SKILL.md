@@ -931,3 +931,8 @@ Antes de entregar um dashboard builder para produção:
 - [ ] **Performance budget** — LCP < 2.5s, INP < 200ms, bundle por widget < 50KB gzip.
 - [ ] **Tabular-nums** — todos os números com `font-variant-numeric: tabular-nums`.
 - [ ] **Date presets** — DateRangePicker com Hoje, 7d, 30d, 90d, YTD, Custom.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

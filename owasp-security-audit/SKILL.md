@@ -181,3 +181,8 @@ app.use(cors({ origin: "*" }));  // Permite qualquer domínio
 - **SEMPRE** validar e sanitizar inputs no servidor.
 - **SEMPRE** implementar rate limiting em endpoints de autenticação.
 - **SEMPRE** usar prepared statements / parameterized queries.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

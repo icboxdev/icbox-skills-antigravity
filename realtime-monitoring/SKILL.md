@@ -1145,3 +1145,8 @@ frontend/ (React)
 - [ ] **Live indicator** — red pulsing dot em streaming charts.
 - [ ] **Absence detection** — job periódico detecta sources que pararam de enviar.
 - [ ] **Multi-tenant** — broadcast channels e queries isolados por tenant_id.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

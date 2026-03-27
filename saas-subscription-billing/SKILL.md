@@ -109,3 +109,8 @@ CREATE TABLE processed_webhooks (
     *   **Downgrades:** Apply the downgrade at the *end* of the current billing cycle to avoid complex refunds and angry customers. Set `cancel_at_period_end = true` or schedule the downgrade in the gateway.
 3.  **One-to-One Mapping:** Maintain a strict 1:1 mapping between your `tenant_id` and the gateway's `customer_id`. Never allow multiple customers for one tenant unless specifically architected for enterprise parent-child billing.
 4.  **Asaas Integration Note:** For Brazilian SaaS, Asaas requires `asaas-access-token` header validation and strictly uses POST webhooks. Always validate the token before processing the event.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

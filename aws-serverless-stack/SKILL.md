@@ -87,3 +87,8 @@ export const handler = async (event) => {
     // NUNCA de `pool.end()`. O ambiente cuidará disso ao ser obliterado pela AWS.
 }
 ```
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

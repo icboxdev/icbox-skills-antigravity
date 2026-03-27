@@ -600,3 +600,8 @@ Before shipping any dashboard builder code, verify:
 - [ ] CSS imports: both `react-grid-layout/css/styles.css` AND `react-resizable/css/styles.css`
 - [ ] Layouts state uses `Layouts` type (object keyed by breakpoint)
 - [ ] Save config includes both `items` (metadata) and `layouts` (positions)
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

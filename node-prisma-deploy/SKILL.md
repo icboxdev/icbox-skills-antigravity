@@ -146,3 +146,8 @@ HEALTHCHECK CMD wget -qO- http://localhost:3000 || exit 1
 ---
 
 Quando aplicar esta skill, analise e integre perfeitamente este template de `Dockerfile` à raiz do novo backend em Node, alterando somente caminhos de outputs conforme a stack específica (como o `dist/src/main.js` no Nest ou apenas `dist/server.js` no Fastify).
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

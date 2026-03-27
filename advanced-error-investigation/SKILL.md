@@ -41,3 +41,37 @@ Se o usuário reportar lentidão extrema:
 2. Isolar a origem no código, verificando o stack trace (RCA).
 3. Testar a suposição com comandos diretos (`grep`, inspeção visual de tipos) ou solicitar ao usuário inspeção de DevTools/Network Tab.
 4. Aplicar correção focada única no arquivo raiz do problema. Nunca refatore lógica vizinha antes que o erro central esteja consertado.
+
+## 6. Debugging Microservices — Error Masking Trap
+
+Em arquiteturas de microserviços, erros frequentemente cruzam fronteiras entre serviços. O **error masking** é o maior inimigo:
+
+```
+Service A → Service B → Service C
+                        ↑ ERRO REAL: "column scope is of type ApiKeyScope"
+                ↑ MASCARADO: "Internal server error"
+        ↑ MASCARADO²: "Failed to create key: 500 — Internal server error"
+```
+
+**Workflow para M2M Debugging:**
+1. **Identifique a cadeia:** trace o request path entre serviços (A→B→C).
+2. **Leia os LOGS do serviço FINAL** (onde o 500 origina), não do intermediário.
+3. Se os logs são insuficientes: **melhore o error handler** para expor detalhes na resposta (temporária ou permanentemente em M2M).
+4. **Nunca assuma que o deploy aterrissou** — confirme a versão em produção antes de debugar código.
+
+**Regra:** Ao investigar 500 entre serviços, o PRIMEIRO passo é garantir que o erro real está visível. Se não está, fix o error handler ANTES de tentar fixar o bug.
+
+## 7. Gotcha: Schema Changes Outside Migrations
+
+Quando o banco de dados é alterado diretamente (DDL fora das migrations), o código pode quebrar de formas não-óbvias:
+
+- **Enum types:** `ALTER COLUMN ... TYPE enum` → INSERTs com text falham
+- **DEFAULTs perdidos:** `ALTER TABLE` pode dropar DEFAULTs de colunas adjacentes
+- **Checksum mismatch:** `sqlx::migrate!()` detecta alteração e recusa rodar
+
+**Regra:** Sempre investigate se o schema DB está igual ao que as migrations definem. Use `\d+ tablename` no psql para comparar com o `001_init.sql`.
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+

@@ -317,3 +317,8 @@ Após implementar, execute esta sequência de testes:
 - Botão delete com **dialog de confirmação** (nunca `confirm()` nativo)
 - Secret exibido com `font-family: monospace` e botão Copy
 - Delivery status: verde `2xx`, vermelho outros, cinza `0` (timeout)
+
+## Regra: Scripts Temporários
+
+> Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.
+
