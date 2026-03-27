@@ -125,6 +125,15 @@ O limite de largura de linha de Auto-Formatters como ESLint/Prettier (printWidth
 - ❌ NUNCA use `alert()`, `confirm()` ou `prompt()` nativos do navegador.
 - SEMPRE use o serviço de Toast in-app (ex: `vue-toastification` ou `useToast` do PrimeVue) para reportar erros ou sucesso na interface.
 
+## 7. Compiler-Driven Development e UX (Anti-Hallucination)
+
+Para erradicar alucinações de código, uso incorreto de DTOs e entrega de UI medíocre:
+- **Validar antes de concluir (Compiler-Driven)**: Antes de considerar sua tarefa finalizada, você DEVE rodar os linters e verificadores de tipos (ex: `vue-tsc --noEmit` ou via build tool). Entregar código Vue que não compila é PROIBIDO.
+- **Zero-Trust**: NUNCA tente "adivinhar" o contrato de um endpoint de API, o formato de um DTO, ou uma variável global do PrimeVue. Investigue os arquivos do servidor (`view_file` nos schemas do backend) ANTES de invocar ou mockar métodos.
+- **Completude UX e Inputs**:
+  - Jamais deixe protótipos em HTML puro sem integrá-los de fato aos dados reais se a API backend já estiver desenhada.
+  - Para campos que representam *Identificadores Estrangeiros* (Foreign Keys, `userId`, `tenantId`), NUNCA coloque um `InputText` puro. Você DEVE instanciar um `Dropdown`, `MultiSelect`, `AutoComplete` ou `CascadeSelect` com dados reais do servidor para essa escolha.
+
 ## Regra: Scripts Temporários
 
 > Scripts auxiliares gerados pelo Agente para acelerar tarefas DEVEM ser criados exclusivamente em `/tmp/` e removidos após uso. NUNCA criar arquivos temporários dentro do diretório do projeto.

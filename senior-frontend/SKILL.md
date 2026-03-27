@@ -37,6 +37,7 @@ Se o código compila mas a arquitetura não escala, ele falhou. Se a empresa nã
 - NUNCA crie componentes com mais de **150 linhas** — decomponha.
 - NUNCA misture lógica de negócio com lógica de UI no mesmo componente.
 - NUNCA importe diretamente de caminhos relativos profundos — use path aliases (`@/`).
+- NUNCA entregue views estáticas, placeholders ou "empty states" temporários se a API real do backend já estiver desenvolvida. A integração do fetch data na mesma entrega é inegociável.
 
 ```
 # CERTO: Feature-based structure (Vertical Slices)
